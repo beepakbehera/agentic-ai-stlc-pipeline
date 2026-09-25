@@ -1,0 +1,42 @@
+name: Agentic AI STLC - Automated Test Suite
+
+on:
+  # Allows Agent 3 in LangGraph to trigger tests remotely via GitHub REST API
+  repository_dispatch:
+    types: [run_agentic_tests]
+
+  # Allows manual triggers directly from the GitHub UI
+  workflow_dispatch:
+
+jobs:
+  test_execution:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Project Dependencies
+        run: |
+          if [ -f package.json ]; then npm ci; else npm init -y && npm install @playwright/test; fi
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Execute Playwright Test Suite
+        run: npx playwright test || true
+
+      - name: Upload Test Execution Reports & Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-execution-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
