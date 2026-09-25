@@ -1,0 +1,153 @@
+# =============================================================================
+# Agentic AI STLC Pipeline - Git Ignore Rules
+# =============================================================================
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+nox/
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.ruff_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Logs
+*.log
+logs/
+pipeline.log
+
+# Data
+data/
+vector_db/
+chroma_db/
+*.sqlite
+*.db
+
+# Generated tests
+tests/generated/
+test-results/
+playwright-report/
+robot-results/
+screenshots/
+traces/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.zip
+
+# ---- Node.js ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.turbo/
+
+# Testing
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+
+# TypeScript
+*.tsbuildinfo
+
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---- CI/CD ----
+.github/workflows/*.yml.bak
+.github/workflows/*.yaml.bak
+
+# ---- Secrets ----
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+.env.local
+.env.*.local
+
+# ---- Documentation ----
+*.md.bak
+docs/_build/
+site/
+
+# ---- Misc ----
+*.orig
+*.rej
+.cache/
+.tmp/
+temp/

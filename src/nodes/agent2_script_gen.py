@@ -1,0 +1,202 @@
+"""
+Stage 3: Agent 2 - Playwright / Robot Script Generator Node.
+
+Uses NVIDIA Nemotron 3 Ultra 550B to generate production-ready
+Playwright TypeScript and Robot Framework automation scripts.
+"""
+
+import json
+import logging
+import time
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, Any, List
+
+import httpx
+from pydantic import ValidationError
+
+from src.state import AgenticSTLCState, AutomationScript, PageObject, TestSuite
+from config.settings import get_settings
+from config.prompt_templates import get_agent2_prompt
+
+logger = logging.getLogger(__name__)
+settings = get_settings()
+
+
+class Agent2ScriptGenerator:
+    """Agent 2: Automation Script Generator using Nemotron 3 Ultra 550B."""
+    
+    def __init__(self):
+        self.api_key = settings.nemotron_api_key.get_secret_value()
+        self.base_url = settings.nemotron_base_url.rstrip("/")
+        self.model = settings.nemotron_model
+        self.temperature = settings.nemotron_temperature
+        self.max_tokens = settings.nemotron_max_tokens
+        self.client = httpx.AsyncClient(timeout=180.0)
+    
+    async def generate_scripts(self, prompt: str) -> Dict[str, Any]:
+        """
+        Call Nemotron API to generate automation scripts.
+        
+        Args:
+            prompt: Complete prompt for script generation
+            
+        Returns:
+            Parsed JSON response with scripts
+        """
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": "You are an expert Test Automation Engineer."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "response_format": {"type": "json_object"},
+        }
+        
+        response = await self.client.post(
+            f"{self.base_url}/chat/completions",
+            headers=headers,
+            json=payload,
+        )
+        response.raise_for_status()
+        
+        data = response.json()
+        content = data["choices"][0]["message"]["content"]
+        tokens_used = data.get("usage", {}).get("total_tokens", 0)
+        
+        return json.loads(content), tokens_used
+
+
+# Global agent instance
+agent2 = Agent2ScriptGenerator()
+
+
+async def agent2_script_gen_node(state: AgenticSTLCState) -> AgenticSTLCState:
+    """
+    LangGraph node for Script Generation (Agent 2).
+    
+    Generates Playwright TypeScript and Robot Framework automation scripts
+    from structured test cases using Nemotron 3 Ultra 550B.
+    """
+    logger.info(f"[{state['run_id']}] Starting Stage 3: Script Generation (Agent 2)")
+    start_time = datetime.utcnow()
+    
+    try:
+        # Validate test suite exists
+        if not state.get("test_suite") or not state["test_suite"].test_cases:
+            raise ValueError("No test cases available for script generation")
+        
+        test_suite: TestSuite = state["test_suite"]
+        
+        # Serialize test cases for prompt
+        test_cases_json = json.dumps({
+            "test_cases": [tc.model_dump() for tc in test_suite.test_cases]
+        }, indent=2)
+        
+        # Serialize existing page objects
+        page_objects_json = json.dumps({
+            "page_objects": [po.model_dump() for po in state.get("page_objects", [])]
+        }, indent=2)
+        
+        # Generate prompt
+        prompt = get_agent2_prompt(
+            test_cases=test_cases_json,
+            application_context=state["application_context"],
+            page_objects=page_objects_json,
+        )
+        state["agent2_prompt"] = prompt
+        
+        # Call Nemotron API
+        response_data, tokens_used = await agent2.generate_scripts(prompt)
+        state["agent2_response"] = json.dumps(response_data, indent=2)
+        state["agent2_tokens_used"] = tokens_used
+        
+        # Parse generated scripts
+        scripts = []
+        page_objects = []
+        
+        # Handle Playwright scripts
+        if "playwright" in response_data:
+            pw_data = response_data["playwright"]
+            if isinstance(pw_data, dict):
+                scripts.append(AutomationScript(
+                    language="playwright",
+                    file_path=pw_data.get("file_path", "tests/generated.spec.ts"),
+                    content=pw_data.get("content", ""),
+                    page_objects=[PageObject(**po) for po in pw_data.get("page_objects", [])],
+                ))
+                page_objects.extend([PageObject(**po) for po in pw_data.get("page_objects", [])])
+        
+        # Handle Robot Framework scripts
+        if "robotframework" in response_data:
+            rf_data = response_data["robotframework"]
+            if isinstance(rf_data, dict):
+                scripts.append(AutomationScript(
+                    language="robotframework",
+                    file_path=rf_data.get("file_path", "tests/generated.robot"),
+                    content=rf_data.get("content", ""),
+                    page_objects=[PageObject(**po) for po in rf_data.get("page_objects", [])],
+                ))
+                page_objects.extend([PageObject(**po) for po in rf_data.get("page_objects", [])])
+        
+        # Handle direct scripts array
+        if "scripts" in response_data:
+            for script_data in response_data["scripts"]:
+                scripts.append(AutomationScript(**script_data))
+        
+        state["automation_scripts"] = scripts
+        state["page_objects"] = page_objects
+        
+        # Write scripts to files
+        await _write_scripts_to_disk(scripts, state["run_id"])
+        
+        # Update state
+        state["current_stage"] = "script_generation"
+        state["updated_at"] = datetime.utcnow()
+        state["stages_completed"].append("script_generation")
+        state["total_tokens_used"] += tokens_used
+        
+        duration = (datetime.utcnow() - start_time).total_seconds()
+        state["agent2_duration_seconds"] = duration
+        state["total_duration_seconds"] += duration
+        
+        logger.info(f"[{state['run_id']}] Script Generation completed in {duration:.2f}s, generated {len(scripts)} scripts, used {tokens_used} tokens")
+        
+    except ValidationError as e:
+        logger.error(f"[{state['run_id']}] Script validation failed: {e}")
+        state["errors"].append({
+            "stage": "script_generation",
+            "error": f"Validation error: {e}",
+            "timestamp": datetime.utcnow().isoformat(),
+        })
+        state["stages_failed"].append("script_generation")
+        state["status"] = "failed"
+    except Exception as e:
+        logger.error(f"[{state['run_id']}] Script Generation failed: {e}")
+        state["errors"].append({
+            "stage": "script_generation",
+            "error": str(e),
+            "timestamp": datetime.utcnow().isoformat(),
+        })
+        state["stages_failed"].append("script_generation")
+        state["status"] = "failed"
+    
+    return state
+
+
+async def _write_scripts_to_disk(scripts: List[AutomationScript], run_id: str) -> None:
+    """Write generated scripts to disk."""
+    output_dir = Path(f"tests/generated/{run_id}")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    for script in scripts:
+        file_path = output_dir / Path(script.file_path).name
+        file_path.write_text(script.content, encoding="utf-8")
+        logger.info(f"Written script: {file_path}")

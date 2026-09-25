@@ -1,0 +1,341 @@
+name: Agentic AI STLC Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to execute'
+        required: true
+        default: 'generated'
+        type: choice
+        options:
+          - generated
+          - regression
+          - smoke
+          - full
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+          - development
+      run_id:
+        description: 'Pipeline run ID'
+        required: true
+        type: string
+      pipeline_id:
+        description: 'Pipeline ID'
+        required: true
+        type: string
+  push:
+    branches: [main, develop]
+    paths:
+      - 'tests/**'
+      - 'src/**'
+      - 'config/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tests/**'
+      - 'src/**'
+      - 'config/**'
+
+env:
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # =========================================================================
+  # STAGE 1-4: Pipeline Execution (RAG -> Test Authoring -> Script Gen -> Healing)
+  # =========================================================================
+  pipeline-execution:
+    name: Pipeline Execution
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    permissions:
+      contents: read
+      actions: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Install Playwright browsers
+          playwright install --with-deps chromium
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install Node.js dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      
+      - name: Configure environment
+        run: |
+          echo "NEMOTRON_API_KEY=${{ secrets.NEMOTRON_API_KEY }}" >> $GITHUB_ENV
+          echo "JIRA_BASE_URL=${{ secrets.JIRA_BASE_URL }}" >> $GITHUB_ENV
+          echo "JIRA_EMAIL=${{ secrets.JIRA_EMAIL }}" >> $GITHUB_ENV
+          echo "JIRA_API_TOKEN=${{ secrets.JIRA_API_TOKEN }}" >> $GITHUB_ENV
+          echo "JIRA_PROJECT_KEY=${{ secrets.JIRA_PROJECT_KEY }}" >> $GITHUB_ENV
+          echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+      
+      - name: Run Pipeline Stages 1-4
+        id: pipeline
+        run: |
+          python main.py \
+            --pipeline-id "${{ github.event.inputs.pipeline_id || github.sha }}" \
+            --run-id "${{ github.event.inputs.run_id || github.run_id }}" \
+            --requirements "${{ secrets.REQUIREMENTS }}" \
+            --acceptance-criteria "${{ secrets.ACCEPTANCE_CRITERIA }}" \
+            --app-context "${{ secrets.APPLICATION_CONTEXT }}" \
+            --git-ref "${{ github.ref_name }}" \
+            --environment "${{ github.event.inputs.environment || 'staging' }}" \
+            --triggered-by "github-actions" \
+            --max-retries 3 \
+            --pipeline-timeout 3600 \
+            --output pipeline_state.json
+      
+      - name: Upload pipeline state
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-state
+          path: pipeline_state.json
+          retention-days: 7
+      
+      - name: Upload generated tests
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-tests
+          path: tests/generated/
+          retention-days: 7
+
+  # =========================================================================
+  # STAGE 5: Playwright Test Execution
+  # =========================================================================
+  playwright-tests:
+    name: Playwright Tests (${{ matrix.browser }})
+    needs: pipeline-execution
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        include:
+          - browser: chromium
+            shard: 1/3
+          - browser: firefox
+            shard: 2/3
+          - browser: webkit
+            shard: 3/3
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Download generated tests
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-tests
+          path: tests/generated/
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      
+      - name: Run Playwright tests
+        run: |
+          npx playwright test \
+            --project=${{ matrix.browser }} \
+            --shard=${{ matrix.shard }} \
+            --reporter=line,junit \
+            --output=test-results/${{ matrix.browser }}
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.browser }}
+          path: |
+            test-results/${{ matrix.browser }}/
+            playwright-report/
+          retention-days: 7
+      
+      - name: Upload traces on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: traces-${{ matrix.browser }}
+          path: test-results/${{ matrix.browser }}/**/trace.zip
+          retention-days: 7
+
+  # =========================================================================
+  # STAGE 5b: Robot Framework Test Execution
+  # =========================================================================
+  robot-tests:
+    name: Robot Framework Tests
+    needs: pipeline-execution
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Download generated tests
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-tests
+          path: tests/generated/
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      - name: Install Robot Framework
+        run: |
+          pip install robotframework robotframework-browser
+          rfbrowser init
+      
+      - name: Run Robot Framework tests
+        run: |
+          robot \
+            --outputdir robot-results \
+            --loglevel DEBUG \
+            tests/generated/*.robot
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+      
+      - name: Upload Robot results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: robot-results
+          path: robot-results/
+          retention-days: 7
+
+  # =========================================================================
+  # STAGE 6: Failure Analysis & Jira Defect Creation
+  # =========================================================================
+  failure-analysis:
+    name: Failure Analysis & Jira Defects
+    needs: [playwright-tests, robot-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ failure() || always() }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Download pipeline state
+        uses: actions/download-artifact@v4
+        with:
+          name: pipeline-state
+          path: .
+      
+      - name: Download test results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-results-*
+          path: test-results/
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Configure environment
+        run: |
+          echo "NEMOTRON_API_KEY=${{ secrets.NEMOTRON_API_KEY }}" >> $GITHUB_ENV
+          echo "JIRA_BASE_URL=${{ secrets.JIRA_BASE_URL }}" >> $GITHUB_ENV
+          echo "JIRA_EMAIL=${{ secrets.JIRA_EMAIL }}" >> $GITHUB_ENV
+          echo "JIRA_API_TOKEN=${{ secrets.JIRA_API_TOKEN }}" >> $GITHUB_ENV
+          echo "JIRA_PROJECT_KEY=${{ secrets.JIRA_PROJECT_KEY }}" >> $GITHUB_ENV
+      
+      - name: Run Failure Analysis
+        run: |
+          python -c "
+import json
+import asyncio
+from src.graph import run_pipeline
+from src.state import create_initial_state
+
+# Load pipeline state
+with open('pipeline_state.json') as f:
+    state = json.load(f)
+
+# Run failure analysis stage
+async def analyze():
+    from src.nodes.agent4_defect_logger import agent4_defect_logger_node
+    final_state = await agent4_defect_logger_node(state)
+    print('Failure analysis complete')
+    print(f'Jira issues created: {len(final_state.get(\"created_jira_issues\", []))}')
+
+asyncio.run(analyze())
+"
+      
+      - name: Summary
+        run: |
+          echo "## Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "**Pipeline:** ${{ github.event.inputs.pipeline_id || github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run:** ${{ github.event.inputs.run_id || github.run_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ github.event.inputs.environment || 'staging' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f pipeline_state.json ]; then
+            echo "### Final State" >> $GITHUB_STEP_SUMMARY
+            cat pipeline_state.json | jq -r '.stages_completed[]' | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # =========================================================================
+  # NOTIFICATION
+  # =========================================================================
+  notify:
+    name: Notify
+    needs: [playwright-tests, robot-tests, failure-analysis]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Send notification
+        run: |
+          STATUS="${{ needs.playwright-tests.result }},${{ needs.robot-tests.result }},${{ needs.failure-analysis.result }}"
+          echo "Pipeline completed with status: $STATUS"
+          # Add Slack/Email/Teams notification here
+          # Example: curl -X POST -H 'Content-type: application/json' --data '{"text":"Pipeline completed"}' $SLACK_WEBHOOK
