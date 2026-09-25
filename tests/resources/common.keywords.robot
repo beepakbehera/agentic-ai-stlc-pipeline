@@ -159,6 +159,14 @@ Wait For Load State
     [Arguments]    ${state}=networkidle    ${timeout}=${DEFAULT_TIMEOUT}
     Wait For Load State    ${state}    timeout=${timeout}
 
+Wait For Navigation
+    [Arguments]    ${url}=    ${timeout}=${DEFAULT_TIMEOUT}
+    Wait For Navigation    ${url}    timeout=${timeout}
+
+Wait For URL
+    [Arguments]    ${url}=    ${timeout}=${DEFAULT_TIMEOUT}
+    Wait For Navigation    ${url}    timeout=${timeout}
+
 # =============================================================================
 # Screenshots & Artifacts
 # =============================================================================

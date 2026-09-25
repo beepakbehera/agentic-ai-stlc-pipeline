@@ -6,9 +6,7 @@ Documentation     Robot Framework Sample Test Suite for Agentic AI STLC Pipeline
 Library           Browser
 Library           Collections
 Library           String
-
-Resource          ../resources/common.keywords.robot
-Variables         ../variables/test_variables.py
+Library           OperatingSystem
 
 *** Variables ***
 ${BASE_URL}       https://staging.example.com
@@ -17,10 +15,10 @@ ${HEADLESS}       True
 ${TIMEOUT}        30s
 ${IMPLICIT_WAIT}  5s
 
-# Test Data
-@{VALID_USERS}    testuser@example.com    ValidPass123!    Test User
-@{INVALID_USERS}  testuser@example.com    WrongPass        Test User
-@{INVALID_EMAILS} not-an-email            ValidPass123!    Test User
+# Test Data - Using proper list format with 4 elements each
+@{VALID_USERS}=    testuser@example.com    ValidPass123!    Test User    Valid credentials grant access
+@{INVALID_USERS}=    testuser@example.com    WrongPass        Test User    Invalid credentials
+@{INVALID_EMAILS}=    not-an-email            ValidPass123!    Test User    Please enter a valid email address
 
 *** Test Cases ***
 
@@ -127,7 +125,7 @@ Open Login Page
     Page Should Contain Element    data-testid=login-page-title
 
 Open Browser To Login Page
-    Call Keyword    Open Login Page
+    Open Login Page
 
 Login
     [Arguments]    ${email}    ${password}    ${remember}=False
@@ -168,13 +166,13 @@ Verify Page Title
 Logout And Close Browser
     Click    data-testid=user-menu-button
     Click    data-testid=logout-button
-    Wait For URL    */login
+    Wait For Navigation    url=*/login
     Close Browser
 
 Cross Browser Login Template
     [Arguments]    ${browser}
     Set Suite Variable    ${BROWSER}    ${browser}
-    Call Keyword    Open Login Page
+    Open Login Page
     Login    ${VALID_USERS[0]}    ${VALID_USERS[1]}
     Verify Dashboard    ${VALID_USERS[2]}
     [Teardown]    Logout And Close Browser

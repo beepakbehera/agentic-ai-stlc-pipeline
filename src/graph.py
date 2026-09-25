@@ -9,6 +9,7 @@ from typing import Dict, Any, Literal
 
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
+from langsmith import traceable
 
 from src.state import AgenticSTLCState
 from src.nodes.rag_retrieval import rag_retrieval_node
@@ -153,6 +154,7 @@ def create_pipeline_graph() -> StateGraph:
 pipeline_graph = create_pipeline_graph()
 
 
+@traceable(name="run_pipeline")
 async def run_pipeline(
     pipeline_id: str,
     run_id: str,
@@ -167,7 +169,7 @@ async def run_pipeline(
     config: Dict[str, Any] = None,
 ) -> AgenticSTLCState:
     """
-    Execute the complete STLC pipeline.
+    Execute the complete STLC pipeline with LangSmith tracing.
     
     Args:
         pipeline_id: Unique pipeline identifier
@@ -180,7 +182,7 @@ async def run_pipeline(
         triggered_by: Trigger source
         max_retries: Maximum retries for failed stages
         pipeline_timeout: Pipeline timeout in seconds
-        config: Optional LangGraph config
+        config: Optional LangGraph config (must include configurable.thread_id for checkpointer)
         
     Returns:
         Final pipeline state
@@ -201,11 +203,18 @@ async def run_pipeline(
         pipeline_timeout=pipeline_timeout,
     )
     
+    # Ensure config has thread_id for checkpointer
+    run_config = config or {}
+    if "configurable" not in run_config:
+        run_config["configurable"] = {}
+    if "thread_id" not in run_config["configurable"]:
+        run_config["configurable"]["thread_id"] = run_id
+    
     # Execute pipeline
     logger.info(f"Starting pipeline {pipeline_id} run {run_id}")
     
     final_state = None
-    async for state in pipeline_graph.astream(initial_state, config=config or {}):
+    async for state in pipeline_graph.astream(initial_state, config=run_config):
         final_state = state
     
     logger.info(f"Pipeline {pipeline_id} run {run_id} completed with status: {final_state.get('status')}")

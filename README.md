@@ -145,6 +145,10 @@ agentic-ai-stlc-pipeline/
 | `VECTOR_DB_PATH` | | ChromaDB path (default: `./data/vector_db`) |
 | `MCP_SERVER_URL` | | MCP server URL (default: `http://localhost:3000`) |
 | `LOG_LEVEL` | | Logging level (default: `INFO`) |
+| `LANGSMITH_API_KEY` | | LangSmith API key for tracing |
+| `LANGSMITH_PROJECT` | | LangSmith project name (default: `agentic-ai-stlc-pipeline`) |
+| `LANGSMITH_TRACING` | | Enable tracing (default: `true`) |
+| `LANGSMITH_ENDPOINT` | | LangSmith API endpoint (default: `https://api.smith.langchain.com`) |
 
 ### Pipeline Configuration
 
@@ -264,11 +268,47 @@ gh workflow run agentic_tests.yml \
 
 ## 📈 Monitoring & Observability
 
-- **LangSmith** tracing (optional) for LLM calls
+- **LangSmith** tracing for LLM calls, agent execution, and pipeline runs
 - **Structured logging** with structlog
 - **GitHub Actions** workflow summaries
 - **Jira** defect tracking with full context
 - **Playwright** traces, screenshots, videos on failure
+
+### LangSmith Tracing Setup
+
+The pipeline includes built-in LangSmith tracing using the [langsmith-trace skill](https://github.com/langchain-ai/langsmith-skills).
+
+**Enable tracing:**
+1. Get your API key from [LangSmith](https://smith.langchain.com/)
+2. Add to `.env`:
+   ```bash
+   LANGSMITH_API_KEY=lsv2_pt_your_key_here
+   LANGSMITH_PROJECT=agentic-ai-stlc-pipeline
+   LANGSMITH_TRACING=true
+   ```
+
+**What gets traced:**
+- All 6 pipeline stages (RAG → Test Authoring → Script Gen → Healing → CI/CD → Failure Analysis)
+- Nemotron 3 Ultra 550B LLM calls with prompts, responses, and token usage
+- Agent execution times and errors
+- Pipeline run metadata (pipeline_id, run_id, environment, etc.)
+
+**View traces:**
+- Open [LangSmith](https://smith.langchain.com/) → Select project `agentic-ai-stlc-pipeline`
+- Filter by pipeline run ID, agent name, or error status
+- Use the trace hierarchy to debug agent failures and optimize prompts
+
+**CLI trace queries (optional):**
+```bash
+# Install LangSmith CLI
+curl -sSL https://raw.githubusercontent.com/langchain-ai/langsmith-cli/main/scripts/install.sh | sh
+
+# List recent traces
+langsmith trace list --project agentic-ai-stlc-pipeline --api-key $LANGSMITH_API_KEY
+
+# Export traces for analysis
+langsmith trace export --project agentic-ai-stlc-pipeline --format jsonl
+```
 
 ## 🛠 Development
 

@@ -1,0 +1,1453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5.dev1 (Python 3.13.14 on win32)" generated="2026-09-26T01:50:00.548271" rpa="false" schemaversion="5">
+<suite id="s1" name="Sample" source="C:\Users\beher\agentic-ai-stlc-pipeline\tests\sample.robot">
+<test id="s1-t1" name="TC-LOGIN-001 Valid User Login" line="25">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:01.086676" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\c3f6c57f-527a-4348-850e-9c721d76ef5f"}</msg>
+<msg time="2026-09-26T01:50:01.142150" level="INFO">Starting Browser process C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\index.js using at 127.0.0.1:54974</msg>
+<msg time="2026-09-26T01:50:07.134145" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.134279" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.134579" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Kp2r9G --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:01.085832" elapsed="6.063763">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Kp2r9G --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.150041" elapsed="0.000195"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.150403" elapsed="0.000112"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.150639" elapsed="0.000125"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.150880" elapsed="0.000108"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.151358" elapsed="0.000128"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:01.084373" elapsed="6.067508">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Kp2r9G --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Logout And Close Browser" type="TEARDOWN">
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:07.153664" level="INFO">Clicks the element 'data-testid=user-menu-button'.</msg>
+<msg time="2026-09-26T01:50:07.163380" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.163532" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.163660" level="FAIL">Error: Could not find active page</msg>
+<arg>data-testid=user-menu-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.153210" elapsed="0.013951">Error: Could not find active page</status>
+</kw>
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:07.168198" level="INFO">Clicks the element 'data-testid=logout-button'.</msg>
+<msg time="2026-09-26T01:50:07.173168" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.173277" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.173379" level="FAIL">Error: Could not find active page</msg>
+<arg>data-testid=logout-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.167380" elapsed="0.008789">Error: Could not find active page</status>
+</kw>
+<kw name="Wait For Navigation" owner="Browser">
+<msg time="2026-09-26T01:50:07.186651" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.186848" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.187026" level="FAIL">Error: No page open.</msg>
+<arg>url=*/login</arg>
+<tag>HTTP</tag>
+<tag>Wait</tag>
+<doc>Waits until the page has navigated to the given ``url``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.176554" elapsed="0.013845">Error: No page open.</status>
+</kw>
+<kw name="Close Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.195711" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.190576" elapsed="0.005304"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.152719" elapsed="0.043491">Several failures occurred:
+
+1) Error: Could not find active page
+
+2) Error: Could not find active page
+
+3) Error: No page open.</status>
+</kw>
+<doc>Test successful login with valid credentials</doc>
+<tag>critical</tag>
+<tag>login</tag>
+<tag>regression</tag>
+<tag>smoke</tag>
+<status status="FAIL" start="2026-09-26T01:50:01.082944" elapsed="6.113637">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Kp2r9G --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+
+
+Also teardown failed:
+Several failures occurred:
+
+1) Error: Could not find active page
+
+2) Error: Could not find active page
+
+3) Error: No page open.</status>
+</test>
+<test id="s1-t2" name="TC-LOGIN-002 Invalid Password Shows Error" line="33">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.212627" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\84b2c779-0396-4190-a4fb-600504f0d1f5"}</msg>
+<msg time="2026-09-26T01:50:07.223994" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.224130" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.224243" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-OJ8ffB --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.211050" elapsed="0.017513">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-OJ8ffB --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.228896" elapsed="0.000284"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.229344" elapsed="0.000134"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.229624" elapsed="0.000113"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.229849" elapsed="0.000089"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.230068" elapsed="0.000086"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.210124" elapsed="0.020154">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-OJ8ffB --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Close Browser" owner="Browser" type="TEARDOWN">
+<msg time="2026-09-26T01:50:07.233421" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.230756" elapsed="0.002813"/>
+</kw>
+<doc>Test login failure with incorrect password</doc>
+<tag>high</tag>
+<tag>login</tag>
+<tag>negative</tag>
+<tag>regression</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.204143" elapsed="0.029727">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-OJ8ffB --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</test>
+<test id="s1-t3" name="TC-LOGIN-003 Invalid Email Format Shows Error" line="41">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.249068" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\ca6c541e-00d2-480f-9a2c-303a70cdcab8"}</msg>
+<msg time="2026-09-26T01:50:07.265902" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.266036" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.266142" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Sddhmm --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.248270" elapsed="0.019789">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Sddhmm --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.268321" elapsed="0.000204"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.268670" elapsed="0.000119"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.268902" elapsed="0.000081"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.269071" elapsed="0.000074"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.269245" elapsed="0.000076"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.247686" elapsed="0.021773">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Sddhmm --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Close Browser" owner="Browser" type="TEARDOWN">
+<msg time="2026-09-26T01:50:07.272340" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.269976" elapsed="0.002489"/>
+</kw>
+<doc>Test login failure with invalid email format</doc>
+<tag>login</tag>
+<tag>medium</tag>
+<tag>negative</tag>
+<tag>validation</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.240434" elapsed="0.032215">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-Sddhmm --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</test>
+<test id="s1-t4" name="TC-LOGIN-004 Empty Email Field Validation" line="49">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.287952" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\ab7c5785-507a-41e4-b376-712b9ae78c69"}</msg>
+<msg time="2026-09-26T01:50:07.299625" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.299772" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.299887" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-0i0yf8 --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.287268" elapsed="0.014402">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-0i0yf8 --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.301950" elapsed="0.000160"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.302236" elapsed="0.000093"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.302425" elapsed="0.000082"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.302600" elapsed="0.000081"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.302795" elapsed="0.000092"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.286755" elapsed="0.016252">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-0i0yf8 --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Close Browser" owner="Browser" type="TEARDOWN">
+<msg time="2026-09-26T01:50:07.306041" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.303433" elapsed="0.002822"/>
+</kw>
+<doc>Test validation when email field is empty</doc>
+<tag>login</tag>
+<tag>medium</tag>
+<tag>negative</tag>
+<tag>validation</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.281152" elapsed="0.025307">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-0i0yf8 --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</test>
+<test id="s1-t5" name="TC-LOGIN-005 Empty Password Field Validation" line="59">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.322658" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\ade610a7-480d-4072-bee6-d5aa1579e07a"}</msg>
+<msg time="2026-09-26T01:50:07.337590" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.337772" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.337922" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-qKVZwW --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.321671" elapsed="0.018638">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-qKVZwW --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.340524" elapsed="0.000149"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.340805" elapsed="0.000100"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.341034" elapsed="0.000104"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.341278" elapsed="0.001153"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.343148" elapsed="0.000301"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.320953" elapsed="0.022746">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-qKVZwW --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Close Browser" owner="Browser" type="TEARDOWN">
+<msg time="2026-09-26T01:50:07.347384" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.344293" elapsed="0.003259"/>
+</kw>
+<doc>Test validation when password field is empty</doc>
+<tag>login</tag>
+<tag>medium</tag>
+<tag>negative</tag>
+<tag>validation</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.317008" elapsed="0.030747">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-qKVZwW --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</test>
+<test id="s1-t6" name="TC-LOGIN-006 Remember Me Functionality" line="69">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.362506" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\397f4618-c1ca-49e8-bd99-e5c9f404d016"}</msg>
+<msg time="2026-09-26T01:50:07.373025" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.373171" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.373279" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-HUdVcx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.360869" elapsed="0.014961">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-HUdVcx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.376630" elapsed="0.000449"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.377378" elapsed="0.000235"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.377793" elapsed="0.000139"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.378089" elapsed="0.000133"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.378393" elapsed="0.000144"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.359857" elapsed="0.018871">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-HUdVcx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Logout And Close Browser" type="TEARDOWN">
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:07.380948" level="INFO">Clicks the element 'data-testid=user-menu-button'.</msg>
+<msg time="2026-09-26T01:50:07.387180" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.387313" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.387410" level="FAIL">Error: Could not find active page</msg>
+<arg>data-testid=user-menu-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.380153" elapsed="0.008985">Error: Could not find active page</status>
+</kw>
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:07.389761" level="INFO">Clicks the element 'data-testid=logout-button'.</msg>
+<msg time="2026-09-26T01:50:07.397720" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.397891" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.398013" level="FAIL">Error: Could not find active page</msg>
+<arg>data-testid=logout-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.389305" elapsed="0.010651">Error: Could not find active page</status>
+</kw>
+<kw name="Wait For Navigation" owner="Browser">
+<msg time="2026-09-26T01:50:07.406255" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.406398" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.406508" level="FAIL">Error: No page open.</msg>
+<arg>url=*/login</arg>
+<tag>HTTP</tag>
+<tag>Wait</tag>
+<doc>Waits until the page has navigated to the given ``url``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.400174" elapsed="0.008501">Error: No page open.</status>
+</kw>
+<kw name="Close Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.415256" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.410245" elapsed="0.005179"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.379408" elapsed="0.036468">Several failures occurred:
+
+1) Error: Could not find active page
+
+2) Error: Could not find active page
+
+3) Error: No page open.</status>
+</kw>
+<doc>Test remember me checkbox persists session</doc>
+<tag>functional</tag>
+<tag>login</tag>
+<tag>low</tag>
+<tag>remember-me</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.354732" elapsed="0.061773">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-HUdVcx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+
+
+Also teardown failed:
+Several failures occurred:
+
+1) Error: Could not find active page
+
+2) Error: Could not find active page
+
+3) Error: No page open.</status>
+</test>
+<test id="s1-t7" name="TC-LOGIN-007 Forgot Password Flow" line="81">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.429291" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\16353dca-9734-4059-94d1-56bee0827130"}</msg>
+<msg time="2026-09-26T01:50:07.440316" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.440454" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.440569" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-kop6zk --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.428328" elapsed="0.016519">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-kop6zk --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.445152" elapsed="0.000173"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.445463" elapsed="0.000098"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.445657" elapsed="0.000082"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.445833" elapsed="0.000077"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.446027" elapsed="0.000087"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.427678" elapsed="0.018558">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-kop6zk --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Close Browser" owner="Browser" type="TEARDOWN">
+<msg time="2026-09-26T01:50:07.450637" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.446681" elapsed="0.004121"/>
+</kw>
+<doc>Test forgot password link navigation</doc>
+<tag>forgot-password</tag>
+<tag>functional</tag>
+<tag>login</tag>
+<tag>medium</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.421627" elapsed="0.029475">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-kop6zk --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</test>
+<test id="s1-t8" name="TC-LOGIN-008 Signup Link Navigation" line="89">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.466373" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\07808c08-9686-4d3d-b2e8-47e915a42b29"}</msg>
+<msg time="2026-09-26T01:50:07.477074" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.477311" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.477480" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-5iCr1z --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.465668" elapsed="0.014580">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-5iCr1z --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.480542" elapsed="0.000173"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.480845" elapsed="0.000093"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.481032" elapsed="0.000085"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.481208" elapsed="0.000078"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.481398" elapsed="0.000095"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.465130" elapsed="0.016483">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-5iCr1z --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Close Browser" owner="Browser" type="TEARDOWN">
+<msg time="2026-09-26T01:50:07.485485" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.482076" elapsed="0.003571"/>
+</kw>
+<doc>Test signup link navigates to registration</doc>
+<tag>login</tag>
+<tag>low</tag>
+<tag>navigation</tag>
+<tag>signup</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.460353" elapsed="0.025555">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-5iCr1z --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</test>
+<test id="s1-t9" name="TC-LOGIN-009 Multiple Failed Attempts Lock Account" line="97">
+<kw name="Open Login Page" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.499381" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\1abdadf5-653b-4d4e-ae6e-7ed481fc5655"}</msg>
+<msg time="2026-09-26T01:50:07.508938" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.509682" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.509904" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-S3cO3J --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.498522" elapsed="0.014729">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-S3cO3J --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.513677" elapsed="0.000225"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.514087" elapsed="0.000137"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.514371" elapsed="0.000136"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.514647" elapsed="0.000116"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.514925" elapsed="0.000135"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.497852" elapsed="0.017390">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-S3cO3J --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Close Browser" owner="Browser" type="TEARDOWN">
+<msg time="2026-09-26T01:50:07.518629" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.515694" elapsed="0.003106"/>
+</kw>
+<doc>Test account lockout after multiple failures</doc>
+<tag>high</tag>
+<tag>lockout</tag>
+<tag>login</tag>
+<tag>security</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.492844" elapsed="0.026159">Setup failed:
+Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-S3cO3J --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</test>
+<test id="s1-t10" name="TC-LOGIN-010 Cross-Browser Login" line="108">
+<kw name="Cross Browser Login Template">
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-09-26T01:50:07.531984" level="INFO">${BROWSER} = chromium</msg>
+<arg>${BROWSER}</arg>
+<arg>${browser}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.531556" elapsed="0.000474"/>
+</kw>
+<kw name="Open Login Page">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.533195" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\ab8a5116-cebd-4604-b601-07697452f5e2"}</msg>
+<msg time="2026-09-26T01:50:07.544652" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.544904" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.545094" level="FAIL">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-vKgpnx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.532521" elapsed="0.015568">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-vKgpnx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="New Context" owner="Browser">
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.548377" elapsed="0.000590"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.549177" elapsed="0.000136"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.549425" elapsed="0.000097"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:07.549625" elapsed="0.000095"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.549839" elapsed="0.000089"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.532178" elapsed="0.017875">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-vKgpnx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+</status>
+</kw>
+<kw name="Login">
+<arg>${VALID_USERS[0]}</arg>
+<arg>${VALID_USERS[1]}</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.550220" elapsed="0.000120"/>
+</kw>
+<kw name="Verify Dashboard">
+<arg>${VALID_USERS[2]}</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:07.550468" elapsed="0.000089"/>
+</kw>
+<kw name="Logout And Close Browser" type="TEARDOWN">
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:07.552157" level="INFO">Clicks the element 'data-testid=user-menu-button'.</msg>
+<msg time="2026-09-26T01:50:07.557223" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.557372" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.557492" level="FAIL">Error: Could not find active page</msg>
+<arg>data-testid=user-menu-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.551469" elapsed="0.009775">Error: Could not find active page</status>
+</kw>
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:07.562309" level="INFO">Clicks the element 'data-testid=logout-button'.</msg>
+<msg time="2026-09-26T01:50:07.568195" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.568353" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.568485" level="FAIL">Error: Could not find active page</msg>
+<arg>data-testid=logout-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.561536" elapsed="0.009046">Error: Could not find active page</status>
+</kw>
+<kw name="Wait For Navigation" owner="Browser">
+<msg time="2026-09-26T01:50:07.579734" level="INFO">Keyword 'Take Screenshot  fail-screenshot-{index}' could not be run on failure:
+Error: Tried to take screenshot, but no page was open.</msg>
+<msg time="2026-09-26T01:50:07.579930" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:07.580107" level="FAIL">Error: No page open.</msg>
+<arg>url=*/login</arg>
+<tag>HTTP</tag>
+<tag>Wait</tag>
+<doc>Waits until the page has navigated to the given ``url``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:07.570776" elapsed="0.011939">Error: No page open.</status>
+</kw>
+<kw name="Close Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.586115" level="INFO">No browser open, doing nothing</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.583015" elapsed="0.003255"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.550785" elapsed="0.035648">Several failures occurred:
+
+1) Error: Could not find active page
+
+2) Error: Could not find active page
+
+3) Error: No page open.</status>
+</kw>
+<arg>chromium</arg>
+<status status="FAIL" start="2026-09-26T01:50:07.531041" elapsed="0.055489">Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable...
+    [ Message content over the limit has been removed. ]
+...recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=C:\Users\beher\AppData\Local\Temp\playwright_chromiumdev_profile-vKgpnx --remote-debugging-pipe --no-startup-window
+  - [pid=N/A] starting temporary directories cleanup
+  - [pid=N/A] finished temporary directories cleanup
+
+
+Also keyword teardown failed:
+Several failures occurred:
+
+1) Error: Could not find active page
+
+2) Error: Could not find active page
+
+3) Error: No page open.</status>
+</kw>
+<kw name="Cross Browser Login Template">
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-09-26T01:50:07.587812" level="INFO">${BROWSER} = firefox</msg>
+<arg>${BROWSER}</arg>
+<arg>${browser}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.587405" elapsed="0.000451"/>
+</kw>
+<kw name="Open Login Page">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:07.588961" level="INFO">{"browser": "firefox", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\9b9000bf-cfdc-49b7-a7f6-0f5bd8eff1ed"}</msg>
+<msg time="2026-09-26T01:50:08.818214" level="INFO">Successfully created browser with options: {"browser":"firefox","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\9b9000bf-cfdc-49b7-a7f6-0f5bd8eff1ed"}</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="PASS" start="2026-09-26T01:50:07.588305" elapsed="1.230092"/>
+</kw>
+<kw name="New Context" owner="Browser">
+<msg time="2026-09-26T01:50:08.820219" level="INFO">{
+  "acceptDownloads": true,
+  "bypassCSP": false,
+  "forcedColors": "none",
+  "ignoreHTTPSErrors": false,
+  "javaScriptEnabled": true,
+  "offline": false,
+  "reducedMotion": "no-preference",
+  "serviceWorkers": "allow",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  }
+}</msg>
+<msg time="2026-09-26T01:50:08.962418" level="INFO">Successfully created context. </msg>
+<msg time="2026-09-26T01:50:08.962570" level="INFO">{'acceptDownloads': True, 'bypassCSP': False, 'forcedColors': 'none', 'ignoreHTTPSErrors': False, 'javaScriptEnabled': True, 'offline': False, 'reducedMotion': 'no-preference', 'serviceWorkers': 'allow', 'viewport': {'width': 1280, 'height': 720}}</msg>
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="PASS" start="2026-09-26T01:50:08.818650" elapsed="0.144114"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<msg time="2026-09-26T01:50:10.368045" level="INFO">Successfully initialized new page object and opened url: about:blank</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="PASS" start="2026-09-26T01:50:08.963075" elapsed="1.405286"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<msg time="2026-09-26T01:50:10.899551" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-1.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-1.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:50:10.900016" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:10.900217" level="FAIL">Error: page.goto: NS_ERROR_UNKNOWN_HOST
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+</msg>
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:10.368667" elapsed="0.535871">Error: page.goto: NS_ERROR_UNKNOWN_HOST
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+</status>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:10.904884" elapsed="0.000221"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:10.905378" elapsed="0.000147"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:07.587999" elapsed="3.317693">Error: page.goto: NS_ERROR_UNKNOWN_HOST
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+</status>
+</kw>
+<kw name="Login">
+<arg>${VALID_USERS[0]}</arg>
+<arg>${VALID_USERS[1]}</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:10.905917" elapsed="0.000148"/>
+</kw>
+<kw name="Verify Dashboard">
+<arg>${VALID_USERS[2]}</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:10.906221" elapsed="0.000121"/>
+</kw>
+<kw name="Logout And Close Browser" type="TEARDOWN">
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:10.907898" level="INFO">Clicks the element 'data-testid=user-menu-button'.</msg>
+<msg time="2026-09-26T01:50:20.955831" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-2.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-2.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:50:20.955965" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:20.956092" level="FAIL">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+</msg>
+<arg>data-testid=user-menu-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:10.907108" elapsed="10.050904">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+</status>
+</kw>
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:20.959443" level="INFO">Clicks the element 'data-testid=logout-button'.</msg>
+<msg time="2026-09-26T01:50:30.996951" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-3.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-3.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:50:30.997147" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:30.997368" level="FAIL">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+</msg>
+<arg>data-testid=logout-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:20.958232" elapsed="10.041827">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+</status>
+</kw>
+<kw name="Wait For Navigation" owner="Browser">
+<msg time="2026-09-26T01:50:41.048549" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-4.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-4.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:50:41.048734" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:41.049164" level="FAIL">TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</msg>
+<arg>url=*/login</arg>
+<tag>HTTP</tag>
+<tag>Wait</tag>
+<doc>Waits until the page has navigated to the given ``url``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:31.000243" elapsed="10.052353">TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</status>
+</kw>
+<kw name="Close Browser" owner="Browser">
+<msg time="2026-09-26T01:50:41.548312" level="INFO">Closed browser</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:50:41.052898" elapsed="0.495572"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:10.906630" elapsed="30.642037">Several failures occurred:
+
+1) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+
+
+2) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+
+
+3) TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</status>
+</kw>
+<arg>firefox</arg>
+<status status="FAIL" start="2026-09-26T01:50:07.586934" elapsed="33.961815">Error: page.goto: NS_ERROR_UNKNOWN_HOST
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+
+
+Also keyword teardown failed:
+Several failures occurred:
+
+1) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+
+
+2) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+
+
+3) TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</status>
+</kw>
+<kw name="Cross Browser Login Template">
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2026-09-26T01:50:41.550097" level="INFO">${BROWSER} = webkit</msg>
+<arg>${BROWSER}</arg>
+<arg>${browser}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2026-09-26T01:50:41.549641" elapsed="0.000501"/>
+</kw>
+<kw name="Open Login Page">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-26T01:50:41.551548" level="INFO">{"browser": "webkit", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\8d939c33-b7c3-4c9e-9ca0-dd00543b5035"}</msg>
+<msg time="2026-09-26T01:50:41.640913" level="INFO">Successfully created browser with options: {"browser":"webkit","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"C:\\Users\\beher\\agentic-ai-stlc-pipeline\\browser\\traces\\temp\\8d939c33-b7c3-4c9e-9ca0-dd00543b5035"}</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="PASS" start="2026-09-26T01:50:41.550671" elapsed="0.090389"/>
+</kw>
+<kw name="New Context" owner="Browser">
+<msg time="2026-09-26T01:50:41.642563" level="INFO">{
+  "acceptDownloads": true,
+  "bypassCSP": false,
+  "forcedColors": "none",
+  "ignoreHTTPSErrors": false,
+  "javaScriptEnabled": true,
+  "offline": false,
+  "reducedMotion": "no-preference",
+  "serviceWorkers": "allow",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  }
+}</msg>
+<msg time="2026-09-26T01:50:41.692444" level="INFO">Successfully created context. </msg>
+<msg time="2026-09-26T01:50:41.692523" level="INFO">{'acceptDownloads': True, 'bypassCSP': False, 'forcedColors': 'none', 'ignoreHTTPSErrors': False, 'javaScriptEnabled': True, 'offline': False, 'reducedMotion': 'no-preference', 'serviceWorkers': 'allow', 'viewport': {'width': 1280, 'height': 720}}</msg>
+<arg>viewport={'width': 1280, 'height': 720}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="PASS" start="2026-09-26T01:50:41.641248" elapsed="0.051396"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<msg time="2026-09-26T01:50:41.973438" level="INFO">Successfully initialized new page object and opened url: about:blank</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="PASS" start="2026-09-26T01:50:41.692937" elapsed="0.280688"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<msg time="2026-09-26T01:50:42.051886" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-5.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-5.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:50:42.052079" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:42.052239" level="FAIL">Error: page.goto: Could not resolve hostname
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+</msg>
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:41.973789" elapsed="0.081135">Error: page.goto: Could not resolve hostname
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+</status>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<arg>networkidle</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits until the page reaches the required load state.</doc>
+<status status="NOT RUN" start="2026-09-26T01:50:42.055177" elapsed="0.000199"/>
+</kw>
+<kw name="Page Should Contain Element">
+<arg>data-testid=login-page-title</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:42.055581" elapsed="0.000144"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:41.550291" elapsed="0.505588">Error: page.goto: Could not resolve hostname
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+</status>
+</kw>
+<kw name="Login">
+<arg>${VALID_USERS[0]}</arg>
+<arg>${VALID_USERS[1]}</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:42.056094" elapsed="0.000143"/>
+</kw>
+<kw name="Verify Dashboard">
+<arg>${VALID_USERS[2]}</arg>
+<status status="NOT RUN" start="2026-09-26T01:50:42.056444" elapsed="0.000131"/>
+</kw>
+<kw name="Logout And Close Browser" type="TEARDOWN">
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:42.057847" level="INFO">Clicks the element 'data-testid=user-menu-button'.</msg>
+<msg time="2026-09-26T01:50:52.119291" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-6.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-6.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:50:52.119491" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:50:52.119829" level="FAIL">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+</msg>
+<arg>data-testid=user-menu-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:42.057250" elapsed="10.065138">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+</status>
+</kw>
+<kw name="Click" owner="Browser">
+<msg time="2026-09-26T01:50:52.123051" level="INFO">Clicks the element 'data-testid=logout-button'.</msg>
+<msg time="2026-09-26T01:51:02.172959" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-7.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-7.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:51:02.173085" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:51:02.173217" level="FAIL">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+</msg>
+<arg>data-testid=logout-button</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="FAIL" start="2026-09-26T01:50:52.122571" elapsed="10.053342">TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+</status>
+</kw>
+<kw name="Wait For Navigation" owner="Browser">
+<msg time="2026-09-26T01:51:12.231047" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-8.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-8.png" style="max-width:800px;max-height:800px;"/&gt;&lt;/a&gt;</msg>
+<msg time="2026-09-26T01:51:12.231208" level="INFO">See also file:///C:/Users/beher/agentic-ai-stlc-pipeline/playwright-log.txt for additional details.</msg>
+<msg time="2026-09-26T01:51:12.231393" level="FAIL">TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</msg>
+<arg>url=*/login</arg>
+<tag>HTTP</tag>
+<tag>Wait</tag>
+<doc>Waits until the page has navigated to the given ``url``.</doc>
+<status status="FAIL" start="2026-09-26T01:51:02.176178" elapsed="10.057522">TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</status>
+</kw>
+<kw name="Close Browser" owner="Browser">
+<msg time="2026-09-26T01:51:12.264924" level="INFO">Closed browser</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-26T01:51:12.233874" elapsed="0.031313"/>
+</kw>
+<status status="FAIL" start="2026-09-26T01:50:42.056839" elapsed="30.209150">Several failures occurred:
+
+1) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+
+
+2) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+
+
+3) TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</status>
+</kw>
+<arg>webkit</arg>
+<status status="FAIL" start="2026-09-26T01:50:41.549126" elapsed="30.717142">Error: page.goto: Could not resolve hostname
+Call log:
+  - navigating to "https://staging.example.com/login", waiting until "load"
+
+
+Also keyword teardown failed:
+Several failures occurred:
+
+1) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+
+
+2) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+
+
+3) TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</status>
+</kw>
+<doc>Test login works across browsers</doc>
+<tag>cross-browser</tag>
+<tag>login</tag>
+<tag>medium</tag>
+<tag>regression</tag>
+<status status="FAIL" start="2026-09-26T01:50:07.524526" elapsed="64.742997">Several failures occurred:
+
+1) Error: browserType.launch: Failed to launch: Error: spawn C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe ENOENT
+Call log:
+  - &lt;launching&gt; C:\Users\beher\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Browser\wrapper\node_modules\playwright-core\.local-browsers\chromium_headless_shell-1243\chrome-headless-shell-win64\chrome-headless-shell.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitionin...
+    [ Message content over the limit has been removed. ]
+  - navigating to "https://staging.example.com/login", waiting until "load"
+
+
+Also keyword teardown failed:
+Several failures occurred:
+
+1) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=user-menu-button')
+
+
+2) TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('data-testid=logout-button')
+
+
+3) TimeoutError: page.waitForNavigation: Timeout 10000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "*/login" until "load"
+============================================================</status>
+</test>
+<doc>Robot Framework Sample Test Suite for Agentic AI STLC Pipeline
+Generated by Agent 2 - Script Generator
+Supports both Playwright and Robot Framework execution</doc>
+<status status="FAIL" start="2026-09-26T01:50:00.550010" elapsed="71.725787"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="10" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="1" skip="0">critical</stat>
+<stat pass="0" fail="1" skip="0">cross-browser</stat>
+<stat pass="0" fail="1" skip="0">forgot-password</stat>
+<stat pass="0" fail="2" skip="0">functional</stat>
+<stat pass="0" fail="2" skip="0">high</stat>
+<stat pass="0" fail="1" skip="0">lockout</stat>
+<stat pass="0" fail="10" skip="0">login</stat>
+<stat pass="0" fail="2" skip="0">low</stat>
+<stat pass="0" fail="5" skip="0">medium</stat>
+<stat pass="0" fail="1" skip="0">navigation</stat>
+<stat pass="0" fail="4" skip="0">negative</stat>
+<stat pass="0" fail="3" skip="0">regression</stat>
+<stat pass="0" fail="1" skip="0">remember-me</stat>
+<stat pass="0" fail="1" skip="0">security</stat>
+<stat pass="0" fail="1" skip="0">signup</stat>
+<stat pass="0" fail="1" skip="0">smoke</stat>
+<stat pass="0" fail="3" skip="0">validation</stat>
+</tag>
+<suite>
+<stat name="Sample" id="s1" pass="0" fail="10" skip="0">Sample</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-09-26T01:50:00.550282" level="ERROR">Error in file 'C:\Users\beher\agentic-ai-stlc-pipeline\tests\sample.robot' on line 21: Setting variable '@{INVALID_EMAILS} not-an-email' failed: Invalid variable name '@{INVALID_EMAILS} not-an-email'.</msg>
+</errors>
+</robot>

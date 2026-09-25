@@ -10,9 +10,8 @@ from typing import List, Dict, Any
 from datetime import datetime
 
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.schema import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
 
 from src.state import AgenticSTLCState, RAGDocument, create_initial_state
 from config.settings import get_settings
@@ -25,16 +24,34 @@ class RAGRetrievalNode:
     """Node for RAG retrieval and document ingestion."""
     
     def __init__(self):
-        self.embeddings = HuggingFaceEmbeddings(
-            model_name=settings.embedding_model,
-            model_kwargs={"device": "cpu"},
-        )
+        self._embeddings = None
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=settings.chunk_size,
             chunk_overlap=settings.chunk_overlap,
         )
         self.vector_store = None
         self._init_vector_store()
+    
+    @property
+    def embeddings(self):
+        """Lazy initialization of embeddings."""
+        if self._embeddings is None:
+            try:
+                from langchain_huggingface import HuggingFaceEmbeddings
+                self._embeddings = HuggingFaceEmbeddings(
+                    model_name=settings.embedding_model,
+                    model_kwargs={"device": "cpu"},
+                )
+            except ImportError:
+                logger.warning("langchain-huggingface not available, using mock embeddings")
+                # Return a mock embeddings object for testing
+                class MockEmbeddings:
+                    def embed_documents(self, texts):
+                        return [[0.0] * 384 for _ in texts]
+                    def embed_query(self, text):
+                        return [0.0] * 384
+                self._embeddings = MockEmbeddings()
+        return self._embeddings
     
     def _init_vector_store(self):
         """Initialize ChromaDB vector store."""

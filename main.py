@@ -28,6 +28,11 @@ from typing import Dict, Any, Optional
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
+# Enable LangSmith tracing early (before other imports)
+import os
+os.environ.setdefault("LANGSMITH_TRACING", "true")
+os.environ.setdefault("LANGSMITH_PROJECT", "agentic-ai-stlc-pipeline")
+
 from src.state import create_initial_state
 from src.graph import pipeline_graph, run_pipeline
 from config.settings import get_settings, Settings
@@ -276,32 +281,36 @@ async def main() -> int:
         print("\n" + "=" * 60)
         print("PIPELINE EXECUTION SUMMARY")
         print("=" * 60)
-        print(f"Pipeline ID: {final_state['pipeline_id']}")
-        print(f"Run ID: {final_state['run_id']}")
-        print(f"Status: {final_state['status']}")
-        print(f"Stages Completed: {', '.join(final_state['stages_completed'])}")
-        if final_state['stages_failed']:
-            print(f"Stages Failed: {', '.join(final_state['stages_failed'])}")
-        print(f"Total Duration: {final_state['total_duration_seconds']:.2f}s")
-        print(f"Total Tokens Used: {final_state['total_tokens_used']}")
         
-        if final_state.get('test_suite'):
-            suite = final_state['test_suite']
-            print(f"\nTest Cases Generated: {len(suite.test_cases)}")
-            print(f"  By Priority: {suite.summary.get('by_priority', {})}")
-            print(f"  By Type: {suite.summary.get('by_type', {})}")
-        
-        if final_state.get('workflow_execution'):
-            we = final_state['workflow_execution']
-            print(f"\nCI/CD Execution:")
-            print(f"  Run ID: {we.workflow_run_id}")
-            print(f"  Conclusion: {we.conclusion}")
-            print(f"  Test Results: {we.test_results}")
-        
-        if final_state.get('created_jira_issues'):
-            print(f"\nJira Issues Created: {len(final_state['created_jira_issues'])}")
-            for issue in final_state['created_jira_issues']:
-                print(f"  - {issue.get('key')}: {issue.get('fields', {}).get('summary')}")
+        if final_state is None:
+            print("Pipeline failed to execute (no state returned)")
+        else:
+            print(f"Pipeline ID: {final_state.get('pipeline_id', 'N/A')}")
+            print(f"Run ID: {final_state.get('run_id', 'N/A')}")
+            print(f"Status: {final_state.get('status', 'unknown')}")
+            print(f"Stages Completed: {', '.join(final_state.get('stages_completed', []))}")
+            if final_state.get('stages_failed'):
+                print(f"Stages Failed: {', '.join(final_state['stages_failed'])}")
+            print(f"Total Duration: {final_state.get('total_duration_seconds', 0):.2f}s")
+            print(f"Total Tokens Used: {final_state.get('total_tokens_used', 0)}")
+            
+            if final_state.get('test_suite'):
+                suite = final_state['test_suite']
+                print(f"\nTest Cases Generated: {len(suite.test_cases)}")
+                print(f"  By Priority: {suite.summary.get('by_priority', {})}")
+                print(f"  By Type: {suite.summary.get('by_type', {})}")
+            
+            if final_state.get('workflow_execution'):
+                we = final_state['workflow_execution']
+                print(f"\nCI/CD Execution:")
+                print(f"  Run ID: {we.workflow_run_id}")
+                print(f"  Conclusion: {we.conclusion}")
+                print(f"  Test Results: {we.test_results}")
+            
+            if final_state.get('created_jira_issues'):
+                print(f"\nJira Issues Created: {len(final_state['created_jira_issues'])}")
+                for issue in final_state['created_jira_issues']:
+                    print(f"  - {issue.get('key')}: {issue.get('fields', {}).get('summary')}")
         
         if final_state.get('errors'):
             print(f"\nErrors: {len(final_state['errors'])}")
@@ -330,7 +339,7 @@ async def main() -> int:
             output_path.write_text(json.dumps(output_data, indent=2, default=str))
             logger.info(f"Results saved to {output_path}")
         
-        return 0 if final_state["status"] == "completed" else 1
+        return 0 if final_state and final_state.get("status") == "completed" else 1
         
     except KeyboardInterrupt:
         logger.info("Pipeline interrupted by user")
