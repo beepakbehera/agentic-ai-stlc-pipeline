@@ -59,6 +59,7 @@ class AutomationScript(BaseModel):
 
 class SelectorHealingResult(BaseModel):
     """Result of selector self-healing."""
+    failed_selector: str = ""
     healed_selector: str
     selector_strategy: Literal["data-testid", "role", "text", "label", "css", "xpath"]
     confidence: float
@@ -185,6 +186,16 @@ class AgenticSTLCState(TypedDict):
     agent2b_tokens_used: int
     agent2b_duration_seconds: float
     
+    # ---- Self-Healing Feedback Loop (Stage 4 -> Stage 3) ----
+    # When Agent 2b heals locators, healing_pending routes the flow back to
+    # Stage 3 (Script Generation) so the healed locators are applied to the
+    # scripts and the suite is re-executed. healing_rounds tracks how many
+    # loop iterations have been used; max_healing_rounds caps the loop.
+    healing_pending: bool
+    healing_rounds: int
+    max_healing_rounds: int
+    healing_history: List[Dict[str, Any]]
+    
     # ---- Stage 5: CI/CD Execution (Agent 3) ----
     workflow_execution: Optional[WorkflowExecution]
     workflow_dispatch_payload: Dict[str, Any]
@@ -272,6 +283,10 @@ def create_initial_state(
         healing_results=[],
         failed_selectors=[],
         mcp_responses=[],
+        healing_pending=False,
+        healing_rounds=0,
+        max_healing_rounds=max_retries,
+        healing_history=[],
         agent2b_prompt="",
         agent2b_response="",
         agent2b_tokens_used=0,

@@ -192,7 +192,6 @@ async def agent4_defect_logger_node(state: AgenticSTLCState) -> AgenticSTLCState
                     jira_client=jira_client,
                 )
                 failure_analyses.append(analysis)
-                total_tokens += analysis.agent4_tokens_used if hasattr(analysis, 'agent4_tokens_used') else 0
                 
                 if analysis.should_create_defect and analysis.jira_defect:
                     issue = await jira_client.create_issue(analysis.jira_defect)
@@ -290,10 +289,8 @@ async def _analyze_single_failure(
     # Call Nemotron for analysis
     response_data, tokens_used = await agent4.analyze_failure(prompt)
     state["agent4_response"] = json.dumps(response_data, indent=2)
+    state["agent4_tokens_used"] = state.get("agent4_tokens_used", 0) + tokens_used
     
     # Parse analysis result
     analysis = FailureAnalysis(**response_data)
-    # Add tokens used to analysis object for aggregation
-    analysis.agent4_tokens_used = tokens_used
-    
     return analysis

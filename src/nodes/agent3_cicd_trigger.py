@@ -7,6 +7,7 @@ for test automation runs.
 
 import json
 import logging
+import os
 import asyncio
 from datetime import datetime
 from typing import Dict, Any, Optional
@@ -233,69 +234,104 @@ async def agent3_cicd_trigger_node(state: AgenticSTLCState) -> AgenticSTLCState:
             state["agent3_tokens_used"] = 0
             state["workflow_execution"] = workflow_execution
         else:
-            # Prepare workflow dispatch payload
-            workflow_inputs = {
-                "test_suite": "generated",
-                "environment": state["environment"],
-                "run_id": state["run_id"],
-                "pipeline_id": state["pipeline_id"],
-            }
-            state["workflow_dispatch_payload"] = workflow_inputs
-            
-            # Dispatch workflow
-            logger.info(f"[{state['run_id']}] Dispatching workflow: {settings.github_workflow_id}")
-            gh_client = get_github_client()
-            run_id = await gh_client.dispatch_workflow(
-                workflow_file=settings.github_workflow_id,
-                ref=state["git_ref"],
-                inputs=workflow_inputs,
-            )
-            logger.info(f"[{state['run_id']}] Workflow dispatched, run ID: {run_id}")
-            
-            # Monitor workflow execution
-            workflow_execution = await _monitor_workflow(
-                run_id=run_id,
-                timeout_minutes=settings.pipeline_timeout // 60,
-                max_retries=state["max_retries"],
-            )
-            
-            state["workflow_execution"] = workflow_execution
-            
-            # If failed, analyze with Nemotron for retry decision
-            if workflow_execution.conclusion == "failure":
-                prompt = get_agent3_prompt(
-                    repo_owner=settings.github_repo_owner,
-                    repo_name=settings.github_repo_name,
+            # -----------------------------------------------------------------
+            # Recursion guard: when this node already runs INSIDE a GitHub
+            # Actions runner (the workflow's pipeline-execution job executes
+            # main.py), do NOT dispatch the workflow again - that would
+            # re-trigger the workflow endlessly. Instead, adopt the current
+            # run as the execution context; the workflow's own Playwright /
+            # Robot Framework jobs perform the actual test execution.
+            # -----------------------------------------------------------------
+            if os.environ.get("GITHUB_ACTIONS", "") == "true":
+                current_run_id = int(os.environ.get("GITHUB_RUN_ID", "0") or 0)
+                repo = f"{settings.github_repo_owner}/{settings.github_repo_name}"
+                logger.info(
+                    f"[{state['run_id']}] Running inside GitHub Actions - skipping "
+                    f"re-dispatch (recursion guard); adopting current run {current_run_id}"
+                )
+                workflow_execution = WorkflowExecution(
+                    workflow_run_id=current_run_id,
+                    status="in_progress",
+                    conclusion=None,
+                    duration_seconds=0,
+                    test_results={"total": 0, "passed": 0, "failed": 0, "skipped": 0, "flaky": 0},
+                    artifacts=[],
+                    logs_url=f"https://github.com/{repo}/actions/runs/{current_run_id}" if current_run_id else "",
+                    retry_triggered=False,
+                )
+                state["agent3_prompt"] = "IN_CI: current workflow run adopted (no re-dispatch)"
+                state["agent3_response"] = json.dumps({
+                    "in_ci": True,
+                    "workflow_run_id": current_run_id,
+                    "note": "recursion guard active - no re-dispatch",
+                }, indent=2)
+                state["agent3_tokens_used"] = 0
+                state["workflow_execution"] = workflow_execution
+                state["workflow_dispatch_payload"] = {"skipped": "recursion_guard"}
+            else:
+                # Prepare workflow dispatch payload
+                workflow_inputs = {
+                    "test_suite": "generated",
+                    "environment": state["environment"],
+                    "run_id": state["run_id"],
+                    "pipeline_id": state["pipeline_id"],
+                }
+                state["workflow_dispatch_payload"] = workflow_inputs
+                
+                # Dispatch workflow
+                logger.info(f"[{state['run_id']}] Dispatching workflow: {settings.github_workflow_id}")
+                gh_client = get_github_client()
+                run_id = await gh_client.dispatch_workflow(
                     workflow_file=settings.github_workflow_id,
-                    git_ref=state["git_ref"],
-                    workflow_inputs=json.dumps(workflow_inputs),
-                    test_suite="generated",
-                    environment=state["environment"],
-                    triggered_by=state["triggered_by"],
+                    ref=state["git_ref"],
+                    inputs=workflow_inputs,
+                )
+                logger.info(f"[{state['run_id']}] Workflow dispatched, run ID: {run_id}")
+                
+                # Monitor workflow execution
+                workflow_execution = await _monitor_workflow(
+                    run_id=run_id,
                     timeout_minutes=settings.pipeline_timeout // 60,
                     max_retries=state["max_retries"],
                 )
-                state["agent3_prompt"] = prompt
                 
-                analysis, tokens_used = await agent3.analyze_execution(prompt)
-                state["agent3_response"] = json.dumps(analysis, indent=2)
-                state["agent3_tokens_used"] = tokens_used
-                state["total_tokens_used"] += tokens_used
+                state["workflow_execution"] = workflow_execution
                 
-                # Check if retry recommended
-                if analysis.get("retry_recommended", False) and state["max_retries"] > 0:
-                    logger.info(f"[{state['run_id']}] Retry recommended, re-running workflow")
-                    await gh_client.rerun_workflow(run_id)
-                    workflow_execution.retry_triggered = True
-                    state["max_retries"] -= 1
-                    
-                    # Monitor retry
-                    workflow_execution = await _monitor_workflow(
-                        run_id=run_id,
+                # If failed, analyze with Nemotron for retry decision
+                if workflow_execution.conclusion == "failure":
+                    prompt = get_agent3_prompt(
+                        repo_owner=settings.github_repo_owner,
+                        repo_name=settings.github_repo_name,
+                        workflow_file=settings.github_workflow_id,
+                        git_ref=state["git_ref"],
+                        workflow_inputs=json.dumps(workflow_inputs),
+                        test_suite="generated",
+                        environment=state["environment"],
+                        triggered_by=state["triggered_by"],
                         timeout_minutes=settings.pipeline_timeout // 60,
                         max_retries=state["max_retries"],
                     )
-                    state["workflow_execution"] = workflow_execution
+                    state["agent3_prompt"] = prompt
+                    
+                    analysis, tokens_used = await agent3.analyze_execution(prompt)
+                    state["agent3_response"] = json.dumps(analysis, indent=2)
+                    state["agent3_tokens_used"] = tokens_used
+                    state["total_tokens_used"] += tokens_used
+                    
+                    # Check if retry recommended
+                    if analysis.get("retry_recommended", False) and state["max_retries"] > 0:
+                        logger.info(f"[{state['run_id']}] Retry recommended, re-running workflow")
+                        await gh_client.rerun_workflow(run_id)
+                        workflow_execution.retry_triggered = True
+                        state["max_retries"] -= 1
+                        
+                        # Monitor retry
+                        workflow_execution = await _monitor_workflow(
+                            run_id=run_id,
+                            timeout_minutes=settings.pipeline_timeout // 60,
+                            max_retries=state["max_retries"],
+                        )
+                        state["workflow_execution"] = workflow_execution
         
         state["workflow_execution"] = workflow_execution
         

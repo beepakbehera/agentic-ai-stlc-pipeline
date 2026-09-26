@@ -17,10 +17,16 @@ graph LR
     B --> C[2. Test Authoring<br/>Agent 1: Nemotron]
     C --> D[3. Script Generation<br/>Agent 2: Nemotron]
     D --> E[4. Selector Healing<br/>Agent 2b: MCP + Nemotron]
-    E --> F[5. CI/CD Execution<br/>Agent 3: GitHub Actions]
+    E -->|healed locators| D
+    E -->|no healing| F[5. CI/CD Execution<br/>Agent 3: GitHub Actions]
     F --> G[6. Failure Analysis<br/>Agent 4: Nemotron + Jira]
     G --> H[Jira Defects + Reports]
 ```
+
+> **Self-healing feedback loop:** when Agent 2b heals broken locators, the healed
+> locators are automatically fed back to **Stage 3 (Script Generation)**, the
+> scripts are patched and re-generated, and the flow continues to execution.
+> The loop is capped by `max_healing_rounds` (default 3) to guarantee termination.
 
 ### 6 Stages
 
@@ -29,7 +35,7 @@ graph LR
 | 1 | RAG Retrieval | ChromaDB + Sentence Transformers | Retrieve relevant context from vector DB |
 | 2 | Test Authoring | Nemotron 3 Ultra 550B | Generate comprehensive test cases |
 | 3 | Script Generation | Nemotron 3 Ultra 550B | Generate Playwright TypeScript & Robot Framework |
-| 4 | Selector Healing | MCP + Nemotron 3 Ultra 550B | Self-heal flaky selectors |
+| 4 | Selector Healing | MCP + Nemotron 3 Ultra 550B | Self-heal flaky selectors, loop back to Stage 3 to apply healed locators |
 | 5 | CI/CD Trigger | GitHub Actions REST API | Dispatch & monitor workflow runs |
 | 6 | Failure Analysis | Nemotron 3 Ultra 550B + Jira | Analyze failures & create defects |
 
@@ -251,15 +257,17 @@ Create `pipeline_config.json`:
 
 ### Agent 2: Script Generator
 - **Model**: Nemotron 3 Ultra 550B
-- **Input**: Test cases + Application context + Existing Page Objects
+- **Input**: Test cases + Application context + Existing Page Objects (+ healed locators on loop passes)
 - **Output**: Playwright TypeScript + Robot Framework scripts
 - **Features**: Page Object Model, data-testid selectors, fixtures, trace viewer
+- **Self-healing loop**: on re-entry from Stage 4, applies healed locators to stored scripts (text patch) and re-emits scripts using the healed selectors
 
 ### Agent 2b: Selector Self-Healing
 - **Model**: Nemotron 3 Ultra 550B + MCP Server
 - **Input**: Failed selector + DOM snapshot + MCP alternatives
 - **Output**: Healed selector + confidence score + code patch
 - **Features**: Multi-strategy ranking, automated patch generation
+- **Feedback loop**: sets `healing_pending` so LangGraph routes back to Stage 3 (Script Generation) to apply the healed locators and re-execute; loop is capped by `max_healing_rounds`
 
 ### Agent 3: CI/CD Orchestrator
 - **Model**: Nemotron 3 Ultra 550B

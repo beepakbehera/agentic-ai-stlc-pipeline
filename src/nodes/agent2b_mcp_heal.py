@@ -139,7 +139,10 @@ async def agent2b_mcp_heal_node(state: AgenticSTLCState) -> AgenticSTLCState:
             logger.info(f"[{state['run_id']}] No failed selectors to heal, skipping")
             state["current_stage"] = "selector_healing"
             state["updated_at"] = datetime.utcnow()
-            state["stages_completed"].append("selector_healing")
+            if "selector_healing" not in state["stages_completed"]:
+                state["stages_completed"].append("selector_healing")
+            # Nothing to heal: loop continues to Stage 5 (CI/CD execution)
+            state["healing_pending"] = False
             
             # Add metadata for LangSmith tracing
             state["_langsmith_metadata"] = {
@@ -200,8 +203,20 @@ async def agent2b_mcp_heal_node(state: AgenticSTLCState) -> AgenticSTLCState:
         # Update state
         state["current_stage"] = "selector_healing"
         state["updated_at"] = datetime.utcnow()
-        state["stages_completed"].append("selector_healing")
+        if "selector_healing" not in state["stages_completed"]:
+            state["stages_completed"].append("selector_healing")
         state["total_tokens_used"] += total_tokens
+        
+        # -----------------------------------------------------------------
+        # Self-healing feedback loop: healed locators exist, so route the
+        # flow back to Stage 3 (Script Generation) to apply them and
+        # re-execute. The loop is capped by max_healing_rounds.
+        # -----------------------------------------------------------------
+        state["healing_pending"] = len(healing_results) > 0
+        state["healing_rounds"] = state.get("healing_rounds", 0) + 1
+        
+        # Consume the failed selectors so a loop-back pass does not heal them twice
+        state["failed_selectors"] = []
         
         duration = (datetime.utcnow() - start_time).total_seconds()
         state["agent2b_duration_seconds"] = duration

@@ -55,6 +55,47 @@ def should_continue(state: AgenticSTLCState) -> Literal["continue", "end"]:
     return "continue"
 
 
+def route_after_healing(state: AgenticSTLCState) -> Literal["revise_scripts", "cicd_execution", "end"]:
+    """
+    Conditional edge after Stage 4 (Selector Healing).
+    
+    Routes back to Stage 3 (Script Generation) when Agent 2b healed
+    locators, so the healed locators are applied to the automation
+    scripts and the suite is re-executed. Proceeds to Stage 5 (CI/CD)
+    when there is nothing to apply or the loop budget is exhausted.
+    
+    Args:
+        state: Current pipeline state
+        
+    Returns:
+        "revise_scripts" to loop back to script_generation,
+        "cicd_execution" to continue the normal flow, or
+        "end" to terminate on failure
+    """
+    if state["status"] == "failed":
+        logger.info(f"[{state['run_id']}] Pipeline failed at selector healing, ending")
+        return "end"
+    
+    healing_pending = state.get("healing_pending", False)
+    rounds = state.get("healing_rounds", 0)
+    max_rounds = state.get("max_healing_rounds", 3)
+    
+    if healing_pending and rounds < max_rounds:
+        logger.info(
+            f"[{state['run_id']}] Healing loop active: {rounds}/{max_rounds} rounds used, "
+            f"routing back to script_generation to apply healed locators"
+        )
+        return "revise_scripts"
+    
+    if healing_pending and rounds >= max_rounds:
+        logger.warning(
+            f"[{state['run_id']}] Healing loop budget exhausted ({rounds}/{max_rounds} rounds); "
+            f"proceeding to cicd_execution with current scripts"
+        )
+    
+    return "cicd_execution"
+
+
 def get_next_stage(state: AgenticSTLCState) -> str:
     """
     Determine the next stage based on current stage.
@@ -215,9 +256,10 @@ def create_pipeline_graph(
     
     workflow.add_conditional_edges(
         "selector_healing",
-        should_continue,
+        route_after_healing,
         {
-            "continue": "cicd_execution",
+            "revise_scripts": "script_generation",
+            "cicd_execution": "cicd_execution",
             "end": END,
         }
     )
@@ -436,7 +478,8 @@ graph TD
     B --> C[Test Authoring<br/>Agent 1: Nemotron]
     C --> D[Script Generation<br/>Agent 2: Nemotron]
     D --> E[Selector Healing<br/>Agent 2b: MCP + Nemotron]
-    E --> F[CI/CD Execution<br/>Agent 3: GitHub Actions]
+    E -->|healed locators - loop back| D
+    E -->|no healing / budget exhausted| F[CI/CD Execution<br/>Agent 3: GitHub Actions]
     F --> G[Failure Analysis<br/>Agent 4: Nemotron + Jira]
     G --> H[Completed]
     
