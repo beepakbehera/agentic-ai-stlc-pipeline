@@ -208,6 +208,13 @@ class AgenticSTLCState(TypedDict):
     stages_failed: List[str]
     errors: List[Dict[str, Any]]
     
+    # ---- Retry Tracking (for observability) ----
+    _retry_attempt: int
+    _retry_max: int
+    
+    # ---- LangSmith Metadata (for tracing) ----
+    _langsmith_metadata: Dict[str, Any]
+    
     # ---- Configuration ----
     max_retries: int
     pipeline_timeout: int
@@ -286,6 +293,9 @@ def create_initial_state(
         stages_completed=[],
         stages_failed=[],
         errors=[],
+        _retry_attempt=0,
+        _retry_max=max_retries,
+        _langsmith_metadata={},
         max_retries=max_retries,
         pipeline_timeout=pipeline_timeout,
         mock_mode=mock_mode,

@@ -170,6 +170,19 @@ async def rag_retrieval_node(state: AgenticSTLCState) -> AgenticSTLCState:
         duration = (datetime.utcnow() - start_time).total_seconds()
         logger.info(f"[{state['run_id']}] RAG Retrieval completed in {duration:.2f}s, found {len(rag_docs)} documents")
         
+        # Add metadata for LangSmith tracing
+        state["_langsmith_metadata"] = {
+            **state.get("_langsmith_metadata", {}),
+            "rag_retrieval": {
+                "documents_retrieved": len(rag_docs),
+                "similar_features_found": len(state["similar_features"]),
+                "past_defects_found": len(state["past_defects"]),
+                "domain_knowledge_found": len(state["domain_knowledge"]),
+                "duration_seconds": duration,
+                "vector_store_available": rag_node.vector_store is not None,
+            }
+        }
+        
     except Exception as e:
         logger.error(f"[{state['run_id']}] RAG Retrieval failed: {e}")
         state["errors"].append({

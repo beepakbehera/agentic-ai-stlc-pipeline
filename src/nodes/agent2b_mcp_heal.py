@@ -82,7 +82,14 @@ class Agent2BHealingEngine:
             )
         )
     
-    @traceable(name="agent2b_heal_selector")
+    @traceable(
+        name="agent2b_heal_selector",
+        metadata={
+            "agent": "agent2b_healing_engine",
+            "model": "nemotron-3-ultra",
+            "stage": "selector_healing",
+        }
+    )
     async def heal_selector(self, prompt: str) -> tuple[Dict[str, Any], int]:
         """
         Call Nemotron API to generate healing recommendation using wrapped OpenAI client.
@@ -133,6 +140,20 @@ async def agent2b_mcp_heal_node(state: AgenticSTLCState) -> AgenticSTLCState:
             state["current_stage"] = "selector_healing"
             state["updated_at"] = datetime.utcnow()
             state["stages_completed"].append("selector_healing")
+            
+            # Add metadata for LangSmith tracing
+            state["_langsmith_metadata"] = {
+                **state.get("_langsmith_metadata", {}),
+                "selector_healing": {
+                    "selectors_healed": 0,
+                    "strategies_used": {},
+                    "mcp_responses_count": 0,
+                    "tokens_used": 0,
+                    "duration_seconds": 0,
+                    "skipped": True,
+                    "reason": "No failed selectors to heal",
+                }
+            }
             return state
         
         healing_results = []
@@ -186,7 +207,24 @@ async def agent2b_mcp_heal_node(state: AgenticSTLCState) -> AgenticSTLCState:
         state["agent2b_duration_seconds"] = duration
         state["total_duration_seconds"] += duration
         
+        # Count strategies used
+        strategies = {}
+        for result in healing_results:
+            strategies[result.selector_strategy] = strategies.get(result.selector_strategy, 0) + 1
+        
         logger.info(f"[{state['run_id']}] Selector Healing completed in {duration:.2f}s, healed {len(healing_results)} selectors, used {total_tokens} tokens")
+        
+        # Add metadata for LangSmith tracing
+        state["_langsmith_metadata"] = {
+            **state.get("_langsmith_metadata", {}),
+            "selector_healing": {
+                "selectors_healed": len(healing_results),
+                "strategies_used": strategies,
+                "mcp_responses_count": len(state.get("mcp_responses", [])),
+                "tokens_used": total_tokens,
+                "duration_seconds": duration,
+            }
+        }
         
     except ValidationError as e:
         logger.error(f"[{state['run_id']}] Selector healing validation failed: {e}")

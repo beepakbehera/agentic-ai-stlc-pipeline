@@ -111,7 +111,14 @@ class Agent1TestAuthor:
             self.client = None
             logger.info("Agent1 running in MOCK mode - using predefined test cases")
     
-    @traceable(name="agent1_generate_test_cases")
+    @traceable(
+        name="agent1_generate_test_cases",
+        metadata={
+            "agent": "agent1_test_author",
+            "model": "nemotron-3-ultra",
+            "stage": "test_authoring",
+        }
+    )
     async def generate_test_cases(self, prompt: str, use_mock_override: bool = None) -> tuple[Dict[str, Any], int]:
         """
         Generate test cases using Nemotron API or mock data.
@@ -195,6 +202,10 @@ async def agent1_test_author_node(state: AgenticSTLCState) -> AgenticSTLCState:
         test_suite = TestSuite(**response_data)
         state["test_suite"] = test_suite
         
+        # Add custom span attributes for LangSmith tracing
+        test_cases_count = len(test_suite.test_cases)
+        priority_dist = test_suite.summary.get("by_priority", {})
+        
         # Update state
         state["current_stage"] = "test_authoring"
         state["updated_at"] = datetime.utcnow()
@@ -205,7 +216,19 @@ async def agent1_test_author_node(state: AgenticSTLCState) -> AgenticSTLCState:
         state["agent1_duration_seconds"] = duration
         state["total_duration_seconds"] += duration
         
-        logger.info(f"[{state['run_id']}] Test Authoring completed in {duration:.2f}s, generated {len(test_suite.test_cases)} test cases, used {tokens_used} tokens")
+        logger.info(f"[{state['run_id']}] Test Authoring completed in {duration:.2f}s, generated {test_cases_count} test cases, used {tokens_used} tokens")
+        
+        # Add metadata for LangSmith tracing
+        state["_langsmith_metadata"] = {
+            **state.get("_langsmith_metadata", {}),
+            "test_authoring": {
+                "test_cases_generated": test_cases_count,
+                "priority_distribution": priority_dist,
+                "tokens_used": tokens_used,
+                "duration_seconds": duration,
+                "mock_mode": use_mock,
+            }
+        }
         
     except ValidationError as e:
         logger.error(f"[{state['run_id']}] Test case validation failed: {e}")

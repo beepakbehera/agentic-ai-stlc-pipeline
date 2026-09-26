@@ -141,6 +141,14 @@ class Settings(BaseSettings):
         default="agentic-ai-stlc-pipeline",
         description="LangSmith project name",
     )
+    langsmith_endpoint: str = Field(
+        default="https://apac.api.smith.langchain.com",
+        description="LangSmith API endpoint (US: https://api.smith.langchain.com, APAC: https://apac.api.smith.langchain.com)",
+    )
+    langsmith_tracing: bool = Field(
+        default=True,
+        description="Enable LangSmith tracing",
+    )
 
 
 @lru_cache(maxsize=1)

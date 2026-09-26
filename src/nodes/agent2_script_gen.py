@@ -69,7 +69,14 @@ class Agent2ScriptGenerator:
             self.client = None
             logger.info("Agent2 running in MOCK mode - using predefined scripts")
     
-    @traceable(name="agent2_generate_scripts")
+    @traceable(
+        name="agent2_generate_scripts",
+        metadata={
+            "agent": "agent2_script_generator",
+            "model": "nemotron-3-ultra",
+            "stage": "script_generation",
+        }
+    )
     async def generate_scripts(self, prompt: str, use_mock_override: bool = None) -> tuple[Dict[str, Any], int]:
         """
         Call Nemotron API to generate automation scripts using wrapped OpenAI client.
@@ -203,7 +210,25 @@ async def agent2_script_gen_node(state: AgenticSTLCState) -> AgenticSTLCState:
         state["agent2_duration_seconds"] = duration
         state["total_duration_seconds"] += duration
         
+        # Count scripts by language
+        script_counts = {}
+        for script in scripts:
+            script_counts[script.language] = script_counts.get(script.language, 0) + 1
+        
         logger.info(f"[{state['run_id']}] Script Generation completed in {duration:.2f}s, generated {len(scripts)} scripts, used {tokens_used} tokens")
+        
+        # Add metadata for LangSmith tracing
+        state["_langsmith_metadata"] = {
+            **state.get("_langsmith_metadata", {}),
+            "script_generation": {
+                "scripts_generated": len(scripts),
+                "script_counts_by_language": script_counts,
+                "page_objects_created": len(state.get("page_objects", [])),
+                "tokens_used": tokens_used,
+                "duration_seconds": duration,
+                "mock_mode": use_mock,
+            }
+        }
         
     except ValidationError as e:
         logger.error(f"[{state['run_id']}] Script validation failed: {e}")

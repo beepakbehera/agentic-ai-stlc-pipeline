@@ -30,8 +30,18 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 # Enable LangSmith tracing early (before other imports)
 import os
-os.environ.setdefault("LANGSMITH_TRACING", "true")
-os.environ.setdefault("LANGSMITH_PROJECT", "agentic-ai-stlc-pipeline")
+from config.settings import get_settings
+
+# Load settings to get LangSmith config
+_settings = get_settings()
+if _settings.langsmith_tracing:
+    os.environ.setdefault("LANGSMITH_TRACING", "true")
+if _settings.langsmith_project:
+    os.environ.setdefault("LANGSMITH_PROJECT", _settings.langsmith_project)
+if _settings.langsmith_endpoint:
+    os.environ.setdefault("LANGSMITH_ENDPOINT", _settings.langsmith_endpoint)
+if _settings.langsmith_api_key:
+    os.environ.setdefault("LANGSMITH_API_KEY", _settings.langsmith_api_key.get_secret_value())
 
 from src.state import create_initial_state
 from src.graph import pipeline_graph, run_pipeline

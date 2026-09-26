@@ -60,7 +60,14 @@ class Agent4FailureAnalyzer:
             self.client = None
             logger.info("Agent4 running in MOCK mode - using simulated failure analysis")
     
-    @traceable(name="agent4_analyze_failure")
+    @traceable(
+        name="agent4_analyze_failure",
+        metadata={
+            "agent": "agent4_failure_analyzer",
+            "model": "nemotron-3-ultra",
+            "stage": "failure_analysis",
+        }
+    )
     async def analyze_failure(self, prompt: str) -> tuple[Dict[str, Any], int]:
         """
         Call Nemotron API to analyze failure and generate defect using wrapped OpenAI client.
@@ -140,6 +147,20 @@ async def agent4_defect_logger_node(state: AgenticSTLCState) -> AgenticSTLCState
             state["agent4_duration_seconds"] = duration
             state["total_duration_seconds"] += duration
             
+            # Add metadata for LangSmith tracing
+            state["_langsmith_metadata"] = {
+                **state.get("_langsmith_metadata", {}),
+                "failure_analysis": {
+                    "failures_analyzed": 0,
+                    "classifications": {},
+                    "jira_issues_created": 0,
+                    "tokens_used": 0,
+                    "duration_seconds": duration,
+                    "mock_mode": use_mock,
+                    "reason": "No failures to analyze - workflow passed" if not workflow_execution or workflow_execution.conclusion != "failure" else "Mock mode enabled",
+                }
+            }
+            
             logger.info(f"[{state['run_id']}] Failure Analysis (mock) completed in {duration:.2f}s - No defects needed")
             return state
         
@@ -194,7 +215,25 @@ async def agent4_defect_logger_node(state: AgenticSTLCState) -> AgenticSTLCState
         state["agent4_duration_seconds"] = duration
         state["total_duration_seconds"] += duration
         
+        # Count classifications
+        classifications = {}
+        for analysis in failure_analyses:
+            classifications[analysis.classification] = classifications.get(analysis.classification, 0) + 1
+        
         logger.info(f"[{state['run_id']}] Failure Analysis completed in {duration:.2f}s, analyzed {len(failure_analyses)} failures, created {len(created_issues)} Jira issues")
+        
+        # Add metadata for LangSmith tracing
+        state["_langsmith_metadata"] = {
+            **state.get("_langsmith_metadata", {}),
+            "failure_analysis": {
+                "failures_analyzed": len(failure_analyses),
+                "classifications": classifications,
+                "jira_issues_created": len(created_issues),
+                "tokens_used": total_tokens,
+                "duration_seconds": duration,
+                "mock_mode": use_mock,
+            }
+        }
         
     except ValidationError as e:
         logger.error(f"[{state['run_id']}] Failure analysis validation failed: {e}")

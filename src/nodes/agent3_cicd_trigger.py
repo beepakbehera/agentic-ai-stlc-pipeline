@@ -168,7 +168,14 @@ class Agent3CICDOrchestrator:
             self.client = None
             logger.info("Agent3 running in MOCK mode - using simulated workflow execution")
     
-    @traceable(name="agent3_analyze_execution")
+    @traceable(
+        name="agent3_analyze_execution",
+        metadata={
+            "agent": "agent3_cicd_orchestrator",
+            "model": "nemotron-3-ultra",
+            "stage": "cicd_execution",
+        }
+    )
     async def analyze_execution(self, prompt: str) -> tuple[Dict[str, Any], int]:
         """Call Nemotron to analyze workflow execution using wrapped OpenAI client."""
         if self.use_mock or self.client is None:
@@ -302,6 +309,23 @@ async def agent3_cicd_trigger_node(state: AgenticSTLCState) -> AgenticSTLCState:
         state["total_duration_seconds"] += duration
         
         logger.info(f"[{state['run_id']}] CI/CD Execution completed in {duration:.2f}s, conclusion: {workflow_execution.conclusion}")
+        
+        # Add metadata for LangSmith tracing
+        test_results = workflow_execution.test_results
+        state["_langsmith_metadata"] = {
+            **state.get("_langsmith_metadata", {}),
+            "cicd_execution": {
+                "workflow_run_id": workflow_execution.workflow_run_id,
+                "conclusion": workflow_execution.conclusion,
+                "duration_seconds": workflow_execution.duration_seconds,
+                "test_results": test_results,
+                "artifacts_count": len(workflow_execution.artifacts),
+                "retry_triggered": workflow_execution.retry_triggered,
+                "tokens_used": state.get("agent3_tokens_used", 0),
+                "duration_seconds": duration,
+                "mock_mode": use_mock,
+            }
+        }
         
     except ValidationError as e:
         logger.error(f"[{state['run_id']}] CI/CD validation failed: {e}")
