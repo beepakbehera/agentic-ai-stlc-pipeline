@@ -135,8 +135,9 @@ class GitHubActionsClient:
         response.raise_for_status()
 
 
-# Global client instance
-gh_client = GitHubActionsClient()
+def get_github_client() -> GitHubActionsClient:
+    """Lazy initialization of GitHub Actions client."""
+    return GitHubActionsClient()
 
 
 class Agent3CICDOrchestrator:
@@ -148,7 +149,11 @@ class Agent3CICDOrchestrator:
         self.model = settings.nemotron_model
         self.temperature = settings.nemotron_temperature
         self.max_tokens = settings.nemotron_max_tokens
-        self.use_mock = not self.api_key or self.api_key == "your-nemotron-api-key-here" or not settings.github_token.get_secret_value()
+        self.api_key = settings.nemotron_api_key.get_secret_value()
+        self.github_token = settings.github_token.get_secret_value()
+        self.use_mock = not self.api_key or self.api_key == "your-nemotron-api-key-here" or not self.github_token
+        
+        logger.info(f"Agent3 initialization: api_key_set={bool(self.api_key)}, github_token_set={bool(self.github_token)}, use_mock={self.use_mock}")
         
         if not self.use_mock:
             # Use OpenAI-compatible client wrapped for LangSmith tracing
@@ -212,7 +217,8 @@ async def agent3_cicd_trigger_node(state: AgenticSTLCState) -> AgenticSTLCState:
         state["workflow_dispatch_payload"] = workflow_inputs
         
         # Use mock workflow execution if in mock mode
-        if agent3.use_mock:
+        use_mock = agent3.use_mock or state.get("mock_mode", False)
+        if use_mock:
             logger.info(f"[{state['run_id']}] Using MOCK workflow execution for Agent 3")
             workflow_execution = MOCK_WORKFLOW_EXECUTION
             state["agent3_prompt"] = "MOCK: CI/CD workflow execution simulated"
@@ -231,6 +237,7 @@ async def agent3_cicd_trigger_node(state: AgenticSTLCState) -> AgenticSTLCState:
             
             # Dispatch workflow
             logger.info(f"[{state['run_id']}] Dispatching workflow: {settings.github_workflow_id}")
+            gh_client = get_github_client()
             run_id = await gh_client.dispatch_workflow(
                 workflow_file=settings.github_workflow_id,
                 ref=state["git_ref"],
@@ -352,6 +359,7 @@ async def _monitor_workflow(
             )
         
         # Get run status
+        gh_client = get_github_client()
         run_data = await gh_client.get_workflow_run(run_id)
         status = run_data.get("status")
         conclusion = run_data.get("conclusion")
@@ -381,6 +389,7 @@ async def _collect_test_results(run_id: int) -> Dict[str, int]:
     results = {"total": 0, "passed": 0, "failed": 0, "skipped": 0, "flaky": 0}
     
     try:
+        gh_client = get_github_client()
         artifacts = await gh_client.list_artifacts(run_id)
         
         for artifact in artifacts:
@@ -398,7 +407,12 @@ async def _collect_test_results(run_id: int) -> Dict[str, int]:
 async def _collect_artifacts(run_id: int) -> list:
     """Collect artifact names from workflow run."""
     try:
+        gh_client = get_github_client()
         artifacts = await gh_client.list_artifacts(run_id)
         return [a["name"] for a in artifacts]
     except Exception:
         return []
+
+
+# Global agent instance
+agent3 = Agent3CICDOrchestrator()

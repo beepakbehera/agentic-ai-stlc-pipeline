@@ -38,7 +38,6 @@ def should_continue(state: AgenticSTLCState) -> Literal["continue", "end"]:
     
     if state["current_stage"] == "failure_analysis":
         logger.info(f"[{state['run_id']}] Pipeline completed all stages")
-        state["status"] = "completed"
         return "end"
     
     return "continue"
@@ -166,6 +165,7 @@ async def run_pipeline(
     triggered_by: str = "manual",
     max_retries: int = 3,
     pipeline_timeout: int = 3600,
+    mock_mode: bool = False,
     config: Dict[str, Any] = None,
 ) -> AgenticSTLCState:
     """
@@ -182,6 +182,7 @@ async def run_pipeline(
         triggered_by: Trigger source
         max_retries: Maximum retries for failed stages
         pipeline_timeout: Pipeline timeout in seconds
+        mock_mode: Run in mock mode (skip real API calls)
         config: Optional LangGraph config (must include configurable.thread_id for checkpointer)
         
     Returns:
@@ -201,6 +202,7 @@ async def run_pipeline(
         triggered_by=triggered_by,
         max_retries=max_retries,
         pipeline_timeout=pipeline_timeout,
+        mock_mode=mock_mode,
     )
     
     # Ensure config has thread_id for checkpointer
@@ -214,10 +216,13 @@ async def run_pipeline(
     logger.info(f"Starting pipeline {pipeline_id} run {run_id}")
     
     final_state = None
-    async for state in pipeline_graph.astream(initial_state, config=run_config):
-        final_state = state
+    async for state_update in pipeline_graph.astream(initial_state, config=run_config):
+        # astream yields {node_name: state_after_node}
+        # We want the latest state
+        for node_name, state in state_update.items():
+            final_state = state
     
-    logger.info(f"Pipeline {pipeline_id} run {run_id} completed with status: {final_state.get('status')}")
+    logger.info(f"Pipeline {pipeline_id} run {run_id} completed with status: {final_state.get('status') if final_state else 'None'}")
     return final_state
 
 

@@ -154,6 +154,11 @@ Examples:
         action="store_true",
         help="Print pipeline graph visualization and exit",
     )
+    parser.add_argument(
+        "--mock",
+        action="store_true",
+        help="Run in mock mode (skip real API calls, use simulated responses)",
+    )
     
     return parser.parse_args()
 
@@ -253,8 +258,8 @@ async def main() -> int:
         return 1
     
     # Validate settings
-    if not settings.nemotron_api_key.get_secret_value():
-        logger.error("NEMOTRON_API_KEY not configured. Check .env file")
+    if not settings.nemotron_api_key.get_secret_value() and not args.mock:
+        logger.error("NEMOTRON_API_KEY not configured. Check .env file or use --mock")
         return 1
     
     # Run pipeline
@@ -262,6 +267,8 @@ async def main() -> int:
     logger.info(f"Run ID: {args.run_id}")
     logger.info(f"Environment: {args.environment}")
     logger.info(f"Git Ref: {args.git_ref}")
+    if args.mock:
+        logger.info("Running in MOCK mode - skipping real API calls")
     
     try:
         final_state = await run_pipeline(
@@ -275,6 +282,7 @@ async def main() -> int:
             triggered_by=args.triggered_by,
             max_retries=args.max_retries,
             pipeline_timeout=args.pipeline_timeout,
+            mock_mode=args.mock,
         )
         
         # Print summary

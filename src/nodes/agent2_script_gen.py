@@ -70,17 +70,20 @@ class Agent2ScriptGenerator:
             logger.info("Agent2 running in MOCK mode - using predefined scripts")
     
     @traceable(name="agent2_generate_scripts")
-    async def generate_scripts(self, prompt: str) -> tuple[Dict[str, Any], int]:
+    async def generate_scripts(self, prompt: str, use_mock_override: bool = None) -> tuple[Dict[str, Any], int]:
         """
         Call Nemotron API to generate automation scripts using wrapped OpenAI client.
         
         Args:
             prompt: Complete prompt for script generation
+            use_mock_override: Override the instance's use_mock setting
             
         Returns:
             Tuple of (parsed JSON response with scripts, tokens_used)
         """
-        if self.use_mock or self.client is None:
+        use_mock = use_mock_override if use_mock_override is not None else self.use_mock
+        
+        if use_mock or self.client is None:
             logger.info("Using MOCK scripts for Agent 2")
             return MOCK_SCRIPTS, 0
         
@@ -145,7 +148,9 @@ async def agent2_script_gen_node(state: AgenticSTLCState) -> AgenticSTLCState:
         state["agent2_prompt"] = prompt
         
         # Call Nemotron API
-        response_data, tokens_used = await agent2.generate_scripts(prompt)
+        # Check if we should use mock mode (either agent's own mock or state mock)
+        use_mock = agent2.use_mock or state.get("mock_mode", False)
+        response_data, tokens_used = await agent2.generate_scripts(prompt, use_mock_override=use_mock)
         state["agent2_response"] = json.dumps(response_data, indent=2)
         state["agent2_tokens_used"] = tokens_used
         

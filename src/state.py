@@ -211,6 +211,7 @@ class AgenticSTLCState(TypedDict):
     # ---- Configuration ----
     max_retries: int
     pipeline_timeout: int
+    mock_mode: bool
 
 
 # =============================================================================
@@ -228,6 +229,7 @@ def create_initial_state(
     triggered_by: str = "manual",
     max_retries: int = 3,
     pipeline_timeout: int = 3600,
+    mock_mode: bool = False,
 ) -> AgenticSTLCState:
     """Create initial pipeline state."""
     now = datetime.utcnow()
@@ -286,4 +288,5 @@ def create_initial_state(
         errors=[],
         max_retries=max_retries,
         pipeline_timeout=pipeline_timeout,
+        mock_mode=mock_mode,
     )

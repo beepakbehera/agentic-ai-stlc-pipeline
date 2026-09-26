@@ -113,11 +113,34 @@ async def agent4_defect_logger_node(state: AgenticSTLCState) -> AgenticSTLCState
     try:
         # Get workflow execution results
         workflow_execution = state.get("workflow_execution")
-        if not workflow_execution or workflow_execution.conclusion != "failure":
-            logger.info(f"[{state['run_id']}] No failures to analyze, skipping defect logging")
+        
+        # Check if we should use mock mode (no failures to analyze)
+        use_mock = (
+            not workflow_execution or 
+            workflow_execution.conclusion != "failure" or
+            agent4.use_mock or
+            state.get("mock_mode", False)
+        )
+        
+        if use_mock:
+            logger.info(f"[{state['run_id']}] Using MOCK failure analysis for Agent 4 (workflow passed or mock mode)")
+            state["failure_analyses"] = [MOCK_FAILURE_ANALYSIS]
+            state["created_jira_issues"] = []
+            state["agent4_tokens_used"] = 0
+            state["agent4_prompt"] = "MOCK: No failures to analyze - workflow passed"
+            state["agent4_response"] = json.dumps(MOCK_FAILURE_ANALYSIS.model_dump(), indent=2)
+            
+            # Update state
             state["current_stage"] = "failure_analysis"
+            state["status"] = "completed"
             state["updated_at"] = datetime.utcnow()
             state["stages_completed"].append("failure_analysis")
+            
+            duration = (datetime.utcnow() - start_time).total_seconds()
+            state["agent4_duration_seconds"] = duration
+            state["total_duration_seconds"] += duration
+            
+            logger.info(f"[{state['run_id']}] Failure Analysis (mock) completed in {duration:.2f}s - No defects needed")
             return state
         
         # Collect failure details (in real scenario, from artifacts/logs)
@@ -162,6 +185,7 @@ async def agent4_defect_logger_node(state: AgenticSTLCState) -> AgenticSTLCState
         
         # Update state
         state["current_stage"] = "failure_analysis"
+        state["status"] = "completed"
         state["updated_at"] = datetime.utcnow()
         state["stages_completed"].append("failure_analysis")
         state["total_tokens_used"] += total_tokens

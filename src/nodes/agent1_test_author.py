@@ -112,17 +112,20 @@ class Agent1TestAuthor:
             logger.info("Agent1 running in MOCK mode - using predefined test cases")
     
     @traceable(name="agent1_generate_test_cases")
-    async def generate_test_cases(self, prompt: str) -> tuple[Dict[str, Any], int]:
+    async def generate_test_cases(self, prompt: str, use_mock_override: bool = None) -> tuple[Dict[str, Any], int]:
         """
         Generate test cases using Nemotron API or mock data.
         
         Args:
             prompt: Complete prompt for test case generation
+            use_mock_override: Override the instance's use_mock setting
             
         Returns:
             Tuple of (parsed JSON response with test cases, tokens_used)
         """
-        if self.use_mock or self.client is None:
+        use_mock = use_mock_override if use_mock_override is not None else self.use_mock
+        
+        if use_mock or self.client is None:
             logger.info("Using MOCK test cases for Agent 1")
             return MOCK_TEST_CASES, 0
         
@@ -182,7 +185,9 @@ async def agent1_test_author_node(state: AgenticSTLCState) -> AgenticSTLCState:
         state["agent1_prompt"] = prompt
         
         # Call Nemotron API
-        response_data, tokens_used = await agent1.generate_test_cases(prompt)
+        # Check if we should use mock mode (either agent's own mock or state mock)
+        use_mock = agent1.use_mock or state.get("mock_mode", False)
+        response_data, tokens_used = await agent1.generate_test_cases(prompt, use_mock_override=use_mock)
         state["agent1_response"] = json.dumps(response_data, indent=2)
         state["agent1_tokens_used"] = tokens_used
         
