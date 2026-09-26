@@ -69,43 +69,61 @@ npx playwright install --with-deps chromium
 ### Configuration
 
 ```bash
-# Copy environment template
+# Linux/macOS:
 cp .env.example .env
 
-# Edit .env with your credentials
-# Required: NEMOTRON_API_KEY, JIRA_*, GITHUB_TOKEN
+# Windows (PowerShell):
+Copy-Item .env.example .env
+
+# Edit .env with your credentials and target application URL:
+# BASE_URL=https://www.saucedemo.com/
+# NEMOTRON_API_KEY, JIRA_*, GITHUB_TOKEN
 ```
 
 ### Run Pipeline
 
-```bash
-# Basic run with inline parameters
-python main.py \
-  --requirements "User login with email/password" \
-  --acceptance-criteria "Valid credentials grant access; invalid show error" \
-  --app-context "Web app at https://app.example.com"
+#### 1. Quickest Run (Zero-Config / Defaults from `.env`)
+Runs automatically against the `BASE_URL` defined in `.env` (default: `https://www.saucedemo.com/`):
 
-# Run with config file
+```bash
+# Live execution (calls Nemotron and Jira APIs)
+python main.py
+
+# Offline Mock mode (instant execution, no API keys needed)
+python main.py --mock
+```
+
+#### 2. Run with Custom Test Scenarios
+
+**Windows (PowerShell):**
+```powershell
+python main.py `
+  --requirements "User authentication, inventory search, add item to cart, and checkout" `
+  --acceptance-criteria "Valid login succeeds and redirects to inventory; invalid credentials display error alert" `
+  --app-context "Swag Labs at https://www.saucedemo.com/"
+```
+
+**Linux / macOS (Bash):**
+```bash
+python main.py \
+  --requirements "User authentication, inventory search, add item to cart, and checkout" \
+  --acceptance-criteria "Valid login succeeds and redirects to inventory; invalid credentials display error alert" \
+  --app-context "Swag Labs at https://www.saucedemo.com/"
+```
+
+#### 3. Additional Execution Commands
+```bash
+# Run with a JSON configuration file
 python main.py --config pipeline_config.json
 
-# Run in mock mode (for testing without API keys)
-python main.py \
-  --requirements "User login with email/password" \
-  --acceptance-criteria "Valid credentials grant access; invalid show error" \
-  --app-context "Web app at https://app.example.com" \
-  --mock
-
-# Ingest documents for RAG
-python main.py --ingest-documents ./docs/
-
-# Visualize pipeline graph
+# Visualize the 6-stage LangGraph workflow graph
 python main.py --visualize
 
-# Enable debug logging for tracing
-python main.py --log-level DEBUG \
-  --requirements "..." \
-  --acceptance-criteria "..." \
-  --app-context "..."
+# Ingest documentation for Stage 1 RAG retrieval
+python main.py --ingest-documents ./docs/
+
+# Enable verbose DEBUG logging
+python main.py --log-level DEBUG --mock
 ```
 
 #### CLI Options
@@ -168,19 +186,44 @@ agentic-ai-stlc-pipeline/
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `NEMOTRON_API_KEY` | ✅ | NVIDIA Nemotron API key |
-| `JIRA_BASE_URL` | ✅ | Jira Cloud instance URL |
+| **Application Under Test** | | |
+| `BASE_URL` | | Base URL for the web application under test (default: `https://www.saucedemo.com/`) |
+| `API_URL` | | REST API URL for test requests |
+| `BROWSER` | | Browser engine for test execution (`chromium`, `firefox`, `webkit`) |
+| `HEADLESS` | | Run browser in headless mode (`true` / `false`) |
+| `ENVIRONMENT` | | Target environment (`staging`, `production`, `development`) |
+| **NVIDIA Nemotron 3 Ultra** | | |
+| `NEMOTRON_API_KEY` | ✅ | NVIDIA Nemotron API key (from NVIDIA NGC / Build) |
+| `NEMOTRON_BASE_URL` | | API Base URL (default: `https://integrate.api.nvidia.com/v1`) |
+| `NEMOTRON_MODEL` | | Model name (default: `nvidia/nemotron-3-ultra`) |
+| `NEMOTRON_TEMPERATURE` | | Generation temperature (default: `0.1`) |
+| `NEMOTRON_MAX_TOKENS` | | Max response token length (default: `8192`) |
+| **Jira Cloud REST API v3** | | |
+| `JIRA_BASE_URL` | ✅ | Jira Cloud instance URL (e.g. `https://your-domain.atlassian.net`) |
 | `JIRA_EMAIL` | ✅ | Jira account email |
-| `JIRA_API_TOKEN` | ✅ | Jira API token |
-| `JIRA_PROJECT_KEY` | ✅ | Jira project key |
-| `GITHUB_TOKEN` | ✅ | GitHub PAT with repo/workflow scopes |
-| `VECTOR_DB_PATH` | | ChromaDB path (default: `./data/vector_db`) |
-| `MCP_SERVER_URL` | | MCP server URL (default: `http://localhost:3000`) |
-| `LOG_LEVEL` | | Logging level (default: `INFO`) |
-| `LANGSMITH_API_KEY` | | LangSmith API key for tracing |
+| `JIRA_API_TOKEN` | ✅ | Jira API token (from Atlassian security settings) |
+| `JIRA_PROJECT_KEY` | ✅ | Target Jira project key (e.g., `PROJ`, `QA`) |
+| `JIRA_ISSUE_TYPE` | | Issue type for filed defects (default: `Bug`) |
+| **GitHub Actions CI/CD** | | |
+| `GITHUB_TOKEN` | ✅ | GitHub Personal Access Token (`repo` + `workflow` scopes) |
+| `GITHUB_REPO_OWNER` | | GitHub repository owner/organization |
+| `GITHUB_REPO_NAME` | | GitHub repository name |
+| `GITHUB_WORKFLOW_ID` | | Workflow file name (default: `agentic_tests.yml`) |
+| **Vector DB / RAG** | | |
+| `VECTOR_DB_PATH` | | ChromaDB local storage directory (default: `./data/vector_db`) |
+| `EMBEDDING_MODEL` | | Embedding model (default: `sentence-transformers/all-MiniLM-L6-v2`) |
+| `CHUNK_SIZE` | | Text chunk size for RAG (default: `1000`) |
+| `CHUNK_OVERLAP` | | Chunk overlap for splitting (default: `200`) |
+| `TOP_K_RETRIEVAL` | | Top documents to retrieve (default: `5`) |
+| **MCP Selector Self-Healing** | | |
+| `MCP_SERVER_URL` | | Model Context Protocol server URL (default: `http://localhost:3000`) |
+| `MCP_TIMEOUT` | | MCP request timeout in seconds (default: `30`) |
+| **Observability & Tracing** | | |
+| `LOG_LEVEL` | | Logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
+| `LANGSMITH_API_KEY` | | LangSmith API key for end-to-end tracing |
 | `LANGSMITH_PROJECT` | | LangSmith project name (default: `agentic-ai-stlc-pipeline`) |
-| `LANGSMITH_TRACING` | | Enable tracing (default: `true`) |
-| `LANGSMITH_ENDPOINT` | | LangSmith API endpoint (default: `https://api.smith.langchain.com`) |
+| `LANGSMITH_TRACING` | | Enable LangSmith tracing (default: `true`) |
+| `LANGSMITH_ENDPOINT` | | LangSmith API endpoint (US or APAC endpoint) |
 
 ### Pipeline Configuration
 
@@ -234,25 +277,31 @@ Create `pipeline_config.json`:
 
 ### Run Playwright Tests
 ```bash
-# All tests
+# Run all tests (sample + generated)
 npx playwright test
 
-# Specific browser
-npx playwright test --project=chromium
+# Run tests generated by Agent 2 for a specific run ID
+npx playwright test tests/generated/<run_id>/login.spec.ts --project=chromium
 
-# With UI
+# Run headed (view browser interactions live on screen)
+npx playwright test tests/generated/ --headed
+
+# Run with interactive Playwright UI mode
 npx playwright test --ui
 
-# Generate report
+# Open the HTML execution report
 npx playwright show-report
 ```
 
 ### Run Robot Framework Tests
 ```bash
-# All tests
+# Run sample suite
 robot tests/sample.robot
 
-# With specific browser
+# Run generated test suite
+robot tests/generated/<run_id>/login.robot
+
+# Run with specific browser
 robot --variable BROWSER:firefox tests/sample.robot
 
 # Output directory
@@ -452,6 +501,51 @@ langsmith trace list --project agentic-ai-stlc-pipeline --api-key $LANGSMITH_API
 # Export traces for analysis
 langsmith trace export --project agentic-ai-stlc-pipeline --format jsonl
 ```
+
+## 📦 Output Artifacts & Reports
+
+Every pipeline run creates structured, traceable artifacts across each STLC phase:
+
+| Artifact | Location | Description |
+|----------|----------|-------------|
+| **Playwright Test Specs** | `tests/generated/<run_id>/*.spec.ts` | Complete TypeScript test specifications with Page Objects |
+| **Robot Framework Suites** | `tests/generated/<run_id>/*.robot` | Keywords, test cases, and variables for Robot Framework |
+| **Pipeline State JSON** | `--output <path>` (e.g. `pipeline_state.json`) | Full state snapshot including token metrics, stages, and defects |
+| **Execution Logs** | `pipeline.log` | Timestamped execution traces for all nodes and retries |
+| **Playwright HTML Report** | `playwright-report/index.html` | Visual test run results with screenshots, videos, and step timing |
+| **Failure Screenshots & Traces** | `test-results/` | DOM snapshots, console logs, and network trace zip archives |
+| **Jira Defect Records** | Jira Cloud Project | Automatically filed bug tickets with classification and reproduction steps |
+
+---
+
+## ❓ Troubleshooting & FAQs
+
+### 1. `Cannot find module ... telemetry_hook_bundle.js`
+- **Cause**: Path quotation formatting on Windows inside `.gemini/config/plugins/`.
+- **Solution**: Move or rename the telemetry folder:
+  ```powershell
+  Move-Item "$HOME\.gemini\config\plugins\googlecloudtools.datacloud_telemetry*" "$HOME\" -Force
+  ```
+  Then reload your VS Code window (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> &rarr; `Reload Window`).
+
+### 2. GitHub Actions Dispatch 422 `Workflow does not have 'workflow_dispatch' trigger`
+- **Cause**: The `.github/workflows/agentic_tests.yml` had an unindented multiline Python script block, causing GitHub's YAML parser to reject the file.
+- **Solution**: Ensure valid YAML indentation in the workflow file and verify your GitHub Personal Access Token has both `repo` and `workflow` scopes enabled.
+
+### 3. Playwright browser executable missing
+- **Cause**: Browser binaries not downloaded after package installation.
+- **Solution**:
+  ```bash
+  npx playwright install --with-deps chromium
+  ```
+
+### 4. Running Offline Without API Keys
+- Simply append the `--mock` flag to simulate all agents with zero external API calls:
+  ```bash
+  python main.py --mock
+  ```
+
+---
 
 ## 🛠 Development
 

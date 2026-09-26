@@ -292,24 +292,24 @@ jobs:
       - name: Run Failure Analysis
         run: |
           python -c "
-import json
-import asyncio
-from src.graph import run_pipeline
-from src.state import create_initial_state
+          import json
+          import asyncio
+          from src.graph import run_pipeline
+          from src.state import create_initial_state
 
-# Load pipeline state
-with open('pipeline_state.json') as f:
-    state = json.load(f)
+          # Load pipeline state
+          with open('pipeline_state.json') as f:
+              state = json.load(f)
 
-# Run failure analysis stage
-async def analyze():
-    from src.nodes.agent4_defect_logger import agent4_defect_logger_node
-    final_state = await agent4_defect_logger_node(state)
-    print('Failure analysis complete')
-    print(f'Jira issues created: {len(final_state.get(\"created_jira_issues\", []))}')
+          # Run failure analysis stage
+          async def analyze():
+              from src.nodes.agent4_defect_logger import agent4_defect_logger_node
+              final_state = await agent4_defect_logger_node(state)
+              print('Failure analysis complete')
+              print(f'Jira issues created: {len(final_state.get(\"created_jira_issues\", []))}')
 
-asyncio.run(analyze())
-"
+          asyncio.run(analyze())
+          "
       
       - name: Summary
         run: |

@@ -251,10 +251,23 @@ async def main() -> int:
             logger.warning("No documents found for ingestion")
         return 0
     
-    # Gather input parameters (CLI args override config file)
-    requirements = args.requirements or config_data.get("requirements", "")
-    acceptance_criteria = args.acceptance_criteria or config_data.get("acceptance_criteria", "")
-    application_context = args.application_context or config_data.get("application_context", "")
+    # Gather input parameters (CLI args override config file, fallback to defaults using settings.base_url)
+    target_url = settings.base_url or "https://www.saucedemo.com/"
+    requirements = (
+        args.requirements
+        or config_data.get("requirements")
+        or f"User authentication, inventory navigation, and end-to-end user journey on {target_url}"
+    )
+    acceptance_criteria = (
+        args.acceptance_criteria
+        or config_data.get("acceptance_criteria")
+        or "Valid credentials authenticate successfully and load the main view; invalid credentials display appropriate error alerts"
+    )
+    application_context = (
+        args.application_context
+        or config_data.get("application_context")
+        or f"Web application under test located at {target_url}"
+    )
     
     # Validate required inputs
     if not requirements:

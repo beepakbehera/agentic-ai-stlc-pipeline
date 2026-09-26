@@ -150,6 +150,28 @@ class Settings(BaseSettings):
         description="Enable LangSmith tracing",
     )
 
+    # ===== Application Under Test & Environment =====
+    base_url: str = Field(
+        default="https://www.saucedemo.com/",
+        description="Base URL for the application under test",
+    )
+    api_url: str = Field(
+        default="",
+        description="API URL for the application under test",
+    )
+    browser: str = Field(
+        default="chromium",
+        description="Browser for automated testing (chromium, firefox, webkit)",
+    )
+    headless: bool = Field(
+        default=True,
+        description="Run browser in headless mode",
+    )
+    environment: str = Field(
+        default="staging",
+        description="Target execution environment (staging, production, development)",
+    )
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
