@@ -151,3 +151,9 @@ site/
 .cache/
 .tmp/
 temp/
+# ---- Generated reports (regenerable via scripts) ----
+Agentic_AI_STLC_Pipeline_Overview.pdf
+agentic_stlc_execution_report.pdf
+execution_report.html
+herokuapp_state.json
+herokuapp_run.log

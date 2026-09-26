@@ -1,0 +1,9 @@
+{
+  "requirements": "The Internet (Herokuapp) login application at https://the-internet.herokuapp.com/login. Test the form-based login for the valid user 'tomsmith' with password 'SuperSecretPassword!': valid login must land on the secure area page showing 'You logged into a secure area!' flash banner and a Logout button; logout must return to the login page. Invalid username must show 'Your username is invalid!'; invalid password must show 'Your password is invalid!'. Both flash banners can be dismissed with the Close (x) button.",
+  "acceptance_criteria": "1) Valid credentials (tomsmith / SuperSecretPassword!) land on /secure with the success flash 'You logged into a secure area!'. 2) Logout button returns to the login page. 3) Invalid username shows 'Your username is invalid!'. 4) Invalid password shows 'Your password is invalid!'. 5) Every flash banner is dismissible via the Close (x) control. 6) Login form contains #username, #password and a submit button of type submit.",
+  "application_context": "The Internet (Herokuapp) training web application at https://the-internet.herokuapp.com/login. Login page: #username input, #password input, button[type=submit] with text 'Login', #flash flash-message banner (success: .flash.success, error: .flash.error), Close button .flash button. Secure area after login: /secure path, .flash.success banner 'You logged into a secure area!', Logout button .icon-signout / a[href='/logout']. Valid credentials: tomsmith / SuperSecretPassword!.",
+  "git_ref": "main",
+  "environment": "staging",
+  "max_retries": 2,
+  "pipeline_timeout": 3600
+}
