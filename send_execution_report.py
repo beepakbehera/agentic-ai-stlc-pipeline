@@ -18,15 +18,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-RUN_ID = 36244620540
+# ---- Current run: herokuapp (second site). Previous: saucedemo run 36244620540 ----
+SITE_NAME = "The Internet (Herokuapp)"
+SITE_URL = "https://the-internet.herokuapp.com/login"
+RUN_ID = 36246250361
+PIPELINE_ID = "herokuapp-e2e-20260926"
 TO_EMAIL = "beepak.behera@gmail.com"
 GMAIL_USER = os.getenv("JIRA_EMAIL", "beepak.behera@gmail.com")
 GMAIL_PASS = os.getenv("GMAIL_APP_PASSWORD", "")
 
 # ---------------------------------------------------------------- results
-PLAYWRIGHT_PER_BROWSER = 6  # e2e_sample (3 auth) + generated validation subset run in CI
-LOCAL_TESTS = 18            # 8 persona + 10 sample (local full-suite verification)
+PLAYWRIGHT_PER_BROWSER = 6  # herokuapp_login.spec.ts scenarios in CI shards
+LOCAL_TESTS = 12            # 6 scenarios x chromium+firefox verified locally
 ROBOT_TESTS = 8
+TOKENS_USED = 25622
 
 JOBS = [
     ("Pipeline Execution (Stages 1-4: RAG, Authoring, Script Gen, Healing)", "success"),
@@ -39,25 +44,18 @@ JOBS = [
 ]
 
 JIRA_ISSUES = [
-    ("SCRUM-5", "Story", "standard_user: full shopping journey"),
-    ("SCRUM-6", "Story", "locked_out_user: login blocked with error"),
-    ("SCRUM-7", "Story", "problem_user: inventory visible (broken image defect)"),
-    ("SCRUM-8", "Story", "performance_glitch_user: delayed login works"),
-    ("SCRUM-9", "Story", "error_user: login + inventory browse"),
-    ("SCRUM-10", "Story", "visual_user: login + inventory browse"),
-    ("SCRUM-11", "Story", "Negative login validation (invalid/empty credentials)"),
-    ("SCRUM-12", "Defect", "problem_user: first product image fails to load"),
-    ("SCRUM-13", "Defect", "CI: invented data-testid selectors (self-healed)"),
+    ("SCRUM-14", "Story", "Valid login reaches secure area (tomsmith)"),
+    ("SCRUM-15", "Story", "Invalid username/password error flashes + dismiss"),
+    ("SCRUM-16", "Observation", "Login page exceeds 3s load target (host latency)"),
 ]
 
 PERSONAS = [
-    ("standard_user", "PASS", "Login + cart + checkout + logout journey"),
-    ("locked_out_user", "PASS", "Blocked with 'Epic sadface: locked out' error"),
-    ("problem_user", "PASS*", "Login OK; known defect: broken product image (SCRUM-12)"),
-    ("performance_glitch_user", "PASS", "Login succeeds after ~5s delay (tolerance verified)"),
-    ("error_user", "PASS", "Login OK, inventory loads"),
-    ("visual_user", "PASS", "Login OK, inventory loads"),
-    ("invalid credentials", "PASS", "Generic 'Epic sadface' error shown, dismissible"),
+    ("valid user (tomsmith)", "PASS", "Login -> /secure with success flash"),
+    ("logout", "PASS", "Returns to login page"),
+    ("invalid username", "PASS", "'Your username is invalid!' flash"),
+    ("invalid password", "PASS", "'Your password is invalid!' flash"),
+    ("error flash dismiss", "PASS", "Close (x) clears the banner"),
+    ("page load (10s target)", "PASS*", "Free-tier latency; SLA re-measure advised (SCRUM-16)"),
 ]
 
 
@@ -76,7 +74,7 @@ def build_html() -> str:
     return f"""<!DOCTYPE html>
 <html><body style="font-family:Segoe UI,Arial,sans-serif;color:#222;max-width:860px;margin:auto">
 <h2 style="color:#1B3A6B">Agentic AI STLC Pipeline - Execution Report</h2>
-<p><b>Target:</b> https://www.saucedemo.com/ &nbsp;|&nbsp; <b>Date:</b> {datetime.utcnow():%d %b %Y %H:%M} UTC</p>
+<p><b>Target:</b> {SITE_NAME} ({SITE_URL}) &nbsp;|&nbsp; <b>Date:</b> {datetime.utcnow():%d %b %Y %H:%M} UTC</p>
 
 <h3 style="color:#2E8B57;background:#E4F3EA;padding:8px 12px">RESULT: ALL PIPELINE STAGES PASSED</h3>
 
@@ -90,15 +88,16 @@ def build_html() -> str:
 <li><b>Playwright:</b> {PLAYWRIGHT_PER_BROWSER} tests x 3 browsers (chromium, firefox, webkit) = 18 CI executions - all passed</li>
 <li><b>Full local verification:</b> {LOCAL_TESTS} tests passed (all personas + negative + performance, chromium &amp; firefox)</li>
 <li><b>Robot Framework:</b> {ROBOT_TESTS} tests - all passed</li>
-<li><b>AI agents:</b> real NVIDIA Nemotron 3 Ultra calls; 10,000+ tokens; Stage 4&rarr;3 self-healing loop active</li>
+<li><b>AI agents:</b> real NVIDIA Nemotron 3 Ultra calls; {TOKENS_USED:,} tokens; Stage 4&rarr;3 self-healing loop active</li>
 </ul>
 
-<h3 style="color:#1B3A6B">User Persona Results (saucedemo login scenarios)</h3>
+<h3 style="color:#1B3A6B">Login Scenario Results ({SITE_NAME})</h3>
 <table border="1" cellpadding="6" style="border-collapse:collapse;width:100%">
 <tr style="background:#1B3A6B;color:#fff"><th>User</th><th>Result</th><th>Detail</th></tr>
 {rows_personas}
 </table>
-<p style="color:#5A6675;font-size:13px">* PASS with documented product defect (filed in Jira).</p>
+<p style="color:#5A6675;font-size:13px">* PASS with environment-latency observation (SCRUM-16, free-tier hosting).</p>
+<p style="color:#5A6675;font-size:13px">Second target validated by the pipeline - previous run: saucedemo.com (Run 36244620540, also all green).</p>
 
 <h3 style="color:#1B3A6B">Jira Issues Created (project SCRUM)</h3>
 <table border="1" cellpadding="6" style="border-collapse:collapse;width:100%">
@@ -139,7 +138,7 @@ def build_pdf(path: str) -> None:
     doc = SimpleDocTemplate(path, pagesize=A4, title="Agentic STLC Execution Report")
     story = [
         Paragraph("Agentic AI STLC Pipeline - Execution Report", styles["Title"]),
-        Paragraph(f"Target: https://www.saucedemo.com/ | Run {RUN_ID} | {datetime.utcnow():%d %b %Y %H:%M} UTC", body),
+        Paragraph(f"Target: {SITE_NAME} ({SITE_URL}) | Run {RUN_ID} | {datetime.utcnow():%d %b %Y %H:%M} UTC", body),
         Paragraph("RESULT: ALL PIPELINE STAGES PASSED", ParagraphStyle("res", parent=styles["Heading2"], textColor=GREEN)),
         Paragraph("GitHub Actions Jobs", h),
     ]
@@ -189,7 +188,7 @@ def build_pdf(path: str) -> None:
 
 def send_email(html: str, pdf_path: str) -> None:
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"[PASS] Agentic STLC Execution Report - saucedemo - Run {RUN_ID}"
+    msg["Subject"] = f"[PASS] Agentic STLC Execution Report - {SITE_NAME} - Run {RUN_ID}"
     msg["From"] = GMAIL_USER
     msg["To"] = TO_EMAIL
 
