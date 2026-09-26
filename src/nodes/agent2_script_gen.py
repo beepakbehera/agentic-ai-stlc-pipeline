@@ -135,7 +135,10 @@ class Agent2ScriptGenerator:
             content = response.choices[0].message.content
             tokens_used = response.usage.total_tokens if response.usage else 0
             
-            return json.loads(content), tokens_used
+            try:
+                return json.loads(content), tokens_used
+            except json.JSONDecodeError:
+                return json.loads(content, strict=False), tokens_used
         except Exception as e:
             logger.warning(f"Nemotron API call failed, falling back to mock: {e}")
             return MOCK_SCRIPTS, 0

@@ -75,9 +75,11 @@ class RAGRetrievalNode:
         Returns:
             Number of chunks ingested
         """
-        if not self.vector_store:
+        # NOTE: an empty (0-document) Chroma collection evaluates falsy, so we
+        # must check for None explicitly rather than truthiness.
+        if self.vector_store is None:
             self._init_vector_store()
-            if not self.vector_store:
+            if self.vector_store is None:
                 logger.error("Vector store not available for ingestion")
                 return 0
         
@@ -108,7 +110,8 @@ class RAGRetrievalNode:
         Returns:
             List of RAGDocument objects
         """
-        if not self.vector_store:
+        # Same as ingestion: empty collection is falsy but valid - check None.
+        if self.vector_store is None:
             logger.warning("Vector store not available for retrieval")
             return []
         

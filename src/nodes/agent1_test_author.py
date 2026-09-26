@@ -151,7 +151,12 @@ class Agent1TestAuthor:
             content = response.choices[0].message.content
             tokens_used = response.usage.total_tokens if response.usage else 0
             
-            return json.loads(content), tokens_used
+            # strict=False tolerates unescaped control characters (raw
+            # newlines/tabs inside strings) that LLMs sometimes emit.
+            try:
+                return json.loads(content), tokens_used
+            except json.JSONDecodeError:
+                return json.loads(content, strict=False), tokens_used
         except Exception as e:
             logger.warning(f"Nemotron API call failed, falling back to mock: {e}")
             return MOCK_TEST_CASES, 0

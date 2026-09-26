@@ -1,0 +1,19 @@
+{
+  "pipeline_id": "pst-e2e-20260926",
+  "run_id": "pst-01",
+  "status": "completed",
+  "stages_completed": [
+    "rag_retrieval",
+    "test_authoring",
+    "script_generation",
+    "selector_healing",
+    "cicd_execution",
+    "failure_analysis"
+  ],
+  "stages_failed": [],
+  "total_duration_seconds": 1343.4952692985535,
+  "total_tokens_used": 10291,
+  "test_cases_count": 3,
+  "jira_issues_created": 1,
+  "errors": []
+}
