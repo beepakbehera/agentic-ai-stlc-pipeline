@@ -19,6 +19,7 @@ from langsmith.wrappers import wrap_openai
 from openai import AsyncOpenAI
 
 from src.state import AgenticSTLCState, AutomationScript, PageObject, TestSuite, SelectorHealingResult
+from src.nodes.agent2b_mcp_heal import KNOWN_SELECTOR_HEALINGS
 from config.settings import get_settings
 from config.prompt_templates import get_agent2_prompt
 
@@ -268,6 +269,11 @@ async def agent2_script_gen_node(state: AgenticSTLCState) -> AgenticSTLCState:
         if is_healing_pass:
             scripts = _apply_healed_locators(scripts, healing_results)
         
+        # Post-generation normalization: replace locators known to be broken
+        # on the target app (learned from past runs / MCP healing server) so
+        # freshly generated scripts are executable on first run.
+        scripts = [_normalize_selectors(sc) for sc in scripts]
+        
         state["automation_scripts"] = scripts
         state["page_objects"] = page_objects
         
@@ -349,6 +355,17 @@ async def _write_scripts_to_disk(scripts: List[AutomationScript], run_id: str) -
         file_path = output_dir / Path(script.file_path).name
         file_path.write_text(script.content, encoding="utf-8")
         logger.info(f"Written script: {file_path}")
+
+
+def _normalize_selectors(script: AutomationScript) -> AutomationScript:
+    """Apply KNOWN_SELECTOR_HEALINGS to a script's content (post-generation pass)."""
+    content = script.content
+    for bad, good in KNOWN_SELECTOR_HEALINGS.items():
+        if bad in content:
+            content = content.replace(bad, good)
+    if content != script.content:
+        logger.info(f"Selector normalization applied to {script.file_path}")
+    return script.model_copy(update={"content": content})
 
 
 def _apply_healed_locators(

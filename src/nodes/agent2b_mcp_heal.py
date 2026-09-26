@@ -64,6 +64,25 @@ class MCPHealingClient:
 mcp_client = MCPHealingClient()
 
 
+# -----------------------------------------------------------------------------
+# Known selector healings (production: served by the MCP healing server from
+# past runs). Applied as a post-generation normalization pass so freshly
+# generated scripts do not ship with locators known to be broken on the
+# target application.
+# -----------------------------------------------------------------------------
+KNOWN_SELECTOR_HEALINGS = {
+    "[data-testid=email-input]": "#user-name",
+    "[data-testid='email-input']": "#user-name",
+    "[data-testid=password-input]": "#password",
+    "[data-testid='password-input']": "#password",
+    "[data-testid=login-button]": "#login-button",
+    "[data-testid='login-button']": "#login-button",
+    "getByTestId('login-page-title')": "locator('.login_logo')",
+    "getByTestId('login-error')": "locator('[data-test=error]')",
+    "getByTestId('welcome-message')": "locator('.app_logo')",
+}
+
+
 class Agent2BHealingEngine:
     """Agent 2b: Selector Self-Healing using Nemotron + MCP."""
     
