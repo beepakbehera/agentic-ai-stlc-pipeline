@@ -31,16 +31,41 @@ settings = get_settings()
 MOCK_SCRIPTS = {
     "playwright": {
         "file_path": "tests/generated/login.spec.ts",
-        "content": "// Mock Playwright test for login\nimport { test, expect } from '@playwright/test';\n\ntest.describe('Login', () => {\n  test('valid user login', async ({ page }) => {\n    await page.goto('/login');\n    await page.fill('[data-testid=email-input]', 'test@example.com');\n    await page.fill('[data-testid=password-input]', 'password');\n    await page.click('[data-testid=login-button]');\n    await expect(page).toHaveURL('/dashboard');\n  });\n});",
+        "content": (
+            "// Mock Playwright test for login (saucedemo)\n"
+            "import { test, expect } from '@playwright/test';\n\n"
+            "test.describe('Login', () => {\n"
+            "  test('valid user login', async ({ page }) => {\n"
+            "    await page.goto('/');\n"
+            "    await page.fill('#user-name', 'standard_user');\n"
+            "    await page.fill('#password', 'secret_sauce');\n"
+            "    await page.click('#login-button');\n"
+            "    await expect(page).toHaveURL(/inventory/);\n"
+            "  });\n"
+            "});"
+        ),
         "page_objects": [
-            {"name": "LoginPage", "url_pattern": "/login", "selectors": {"email": "[data-testid=email-input]", "password": "[data-testid=password-input]", "login": "[data-testid=login-button]"}, "methods": ["login"]}
+            {"name": "LoginPage", "url_pattern": "/", "selectors": {"username": "#user-name", "password": "#password", "login": "#login-button"}, "methods": ["login"]}
         ]
     },
     "robotframework": {
         "file_path": "tests/generated/login.robot",
-        "content": "*** Settings ***\nLibrary    Browser\n\n*** Test Cases ***\nValid Login\n    New Browser    chromium\n    New Page\n    Go To    https://example.com/login\n    Fill    [data-testid=email-input]    test@example.com\n    Fill    [data-testid=password-input]    password\n    Click    [data-testid=login-button]\n    Wait For URL    */dashboard\n    Close Browser",
+        "content": (
+            "*** Settings ***\n"
+            "Library    Browser\n\n"
+            "*** Test Cases ***\n"
+            "Valid Login\n"
+            "    New Browser    chromium    headless=True\n"
+            "    New Page\n"
+            "    Go To    https://www.saucedemo.com/\n"
+            "    Fill Text    css=#user-name    standard_user\n"
+            "    Fill Text    css=#password    secret_sauce\n"
+            "    Click    css=#login-button\n"
+            "    Wait For Elements State    css=.inventory_list    visible    timeout=30s\n"
+            "    Close Browser"
+        ),
         "page_objects": [
-            {"name": "LoginPage", "url_pattern": "/login", "selectors": {"email": "[data-testid=email-input]", "password": "[data-testid=password-input]", "login": "[data-testid=login-button]"}, "methods": ["login"]}
+            {"name": "LoginPage", "url_pattern": "/", "selectors": {"username": "#user-name", "password": "#password", "login": "#login-button"}, "methods": ["login"]}
         ]
     }
 }
