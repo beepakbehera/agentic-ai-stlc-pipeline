@@ -9,11 +9,21 @@ import { test, expect } from '@playwright/test';
  *   detail: product-name, unit-price, product-description, quantity,
  *           increase-quantity, decrease-quantity, add-to-cart,
  *           add-to-favorites
- *   account: nav-my-invoices, invoice-number, nav-my-favorites
- *   checkout: proceed-1..4, first-name, checkout-complete
+ *   account: nav-menu (dropdown), nav-my-invoices, invoice-number, nav-my-favorites
+ *   checkout: one page, wizard steps 1-4:
+ *     proceed-1 (cart) -> proceed-2 (login pane, "already logged in") ->
+ *     address pane (country, postal_code, house_number -> postcode lookup
+ *     autofills street/city/state) -> proceed-3 -> payment pane
+ *     (payment-method <select>: bank-transfer, cash-on-delivery,
+ *     credit-card, buy-now-pay-later, gift-card; only cash-on-delivery and
+ *     credit-card enable finish without extra fields) -> finish (twice: first
+ *     click validates payment, second creates the invoice) ->
+ *     #order-confirmation with #invoice-number (no checkout-complete testid)
  */
 
-const BASE = process.env.BASE_URL || 'https://practicesoftwaretesting.com';
+// PST_BASE_URL keeps these suites decoupled from the shared BASE_URL used by
+// the saucedemo/herokuapp suites.
+const BASE = process.env.PST_BASE_URL || 'https://practicesoftwaretesting.com';
 const CUSTOMER_EMAIL = 'customer@practicesoftwaretesting.com';
 const CUSTOMER_PASS = 'welcome01';
 
@@ -138,33 +148,76 @@ test.describe('Cart, favorites & checkout (logged in)', () => {
     await expect(page.getByTestId('proceed-1')).toBeVisible({ timeout: 15000 });
   });
 
-  test('full checkout completes with "Thanks for your order!"', async ({ page }) => {
-    // Arrange: add an in-stock product
+  test('full checkout completes with order confirmation', async ({ page }) => {
+    // Invoice creation on the demo API can be slow under parallel load.
+    test.setTimeout(90000);
+
+    // Arrange: add an in-stock product, then confirm the cart badge updated —
+    // the checkout wizard's cart step crashes silently if the cart isn't
+    // loaded (app bug: 'Cannot read properties of undefined cart_items').
     await openInStockProduct(page);
     await page.getByTestId('add-to-cart').click();
-    await page.waitForTimeout(1000);
+    await expect(page.getByTestId('cart-quantity')).toHaveText(/^[1-9]/, { timeout: 15000 });
 
-    // Act: walk through the 5 checkout steps
+    // Act: walk through the checkout wizard (single page, steps 1-4).
+    // The demo API occasionally fails the first cart fetch; retry once.
     await page.goto(`${BASE}/checkout`);
-    await page.getByTestId('proceed-1').click();                       // cart -> sign in
-    await page.getByTestId('proceed-2').click();                       // already signed in -> billing
-    await expect(page.getByTestId('first-name')).toBeVisible({ timeout: 20000 });
-    await page.getByTestId('proceed-3').click();                       // billing -> payment
-    await page.waitForTimeout(1000);
-    const bank = page.locator("input[value='Bank Transfer']");
-    if (await bank.count()) await bank.check().catch(() => {});
-    await page.getByTestId('proceed-4').click();                       // payment -> delivery
-    await page.waitForTimeout(1000);
-    const finish = page.locator('[data-test=finish], [data-test=proceed-5]');
-    if (await finish.count()) await finish.first().click().catch(() => {});
+    if (!(await page.getByTestId('proceed-1').isVisible().catch(() => false))) {
+      await page.goto(`${BASE}/checkout`);
+    }
+    await page.getByTestId('proceed-1').waitFor({ state: 'visible', timeout: 20000 });
+    // Wait for the cart fetch to land so step 1 is fully interactive.
+    await page.getByTestId('cart-total').waitFor({ state: 'visible', timeout: 15000 });
+    await page.getByTestId('proceed-1').click();                       // step 1: cart
 
-    // Assert: order confirmation
-    const complete = page.getByTestId('checkout-complete');
-    await expect(complete).toBeVisible({ timeout: 25000 });
-    await expect(complete).toContainText(/Thanks for your order/i);
+    await page.getByTestId('proceed-2').waitFor({ state: 'visible', timeout: 20000 });
+    await page.getByTestId('proceed-2').click();                       // step 2: login pane (already signed in)
+
+    // Step 3: address pane — country select, postcode lookup autofills street/city/state
+    const country = page.getByTestId('country');
+    await country.waitFor({ state: 'visible', timeout: 20000 });
+    const countryValues = await country.evaluate((e) =>
+      Array.from((e as HTMLSelectElement).options).map((o) => o.value).filter(Boolean)
+    );
+    if (countryValues.includes('US')) await country.selectOption('US');
+    else await country.selectOption({ index: 1 });
+    await page.getByTestId('postal_code').fill('12345');
+    await page.getByTestId('house_number').fill('42');
+    // Postcode lookup is debounced 300ms; give the faker autofill time to land.
+    await page.waitForTimeout(2500);
+    for (const f of ['street', 'city', 'state']) {
+      const loc = page.getByTestId(f);
+      if (!(await loc.inputValue())) await loc.fill(`Test ${f.replace('-', ' ')}`);
+    }
+    await expect(page.getByTestId('proceed-3')).toBeEnabled({ timeout: 10000 });
+    await page.getByTestId('proceed-3').click();                       // step 3: address -> payment
+
+    // Step 4: payment — cash-on-delivery enables finish without extra fields
+    const pm = page.getByTestId('payment-method');
+    await pm.waitFor({ state: 'visible', timeout: 20000 });
+    await pm.selectOption('cash-on-delivery');
+    await expect(page.getByTestId('finish')).toBeEnabled({ timeout: 10000 });
+
+    // The app validates the payment on the FIRST Confirm click (the paid flag
+    // is only set once POST /payment/check returns), and only creates the
+    // invoice on a subsequent click. Clicking twice is therefore required.
+    await page.getByTestId('finish').click();
+    await expect(page.getByText('Payment was successful')).toBeVisible({ timeout: 15000 });
+    await page.getByTestId('finish').click();
+
+    // Assert: order confirmation. v2.5 renders it as an [innerHTML] pane with
+    // id="order-confirmation" (the old checkout-complete testid is gone).
+    const confirmation = page.locator('#order-confirmation');
+    await expect(confirmation).toBeVisible({ timeout: 45000 });
+    await expect(confirmation).toContainText(/Thanks for your order/i);
+    // The invoice number is interpolated into the confirmation text (the span
+    // id may be stripped by Angular's innerHTML sanitizer, so match text).
+    await expect(confirmation).toContainText(/invoice number is \S+/i);
   });
 
   test('invoices overview is reachable', async ({ page }) => {
+    // The account section is a dropdown: open nav-menu first.
+    await page.getByTestId('nav-menu').click();
     await page.getByTestId('nav-my-invoices').click();
     await expect(page).toHaveURL(/invoices/, { timeout: 15000 });
   });

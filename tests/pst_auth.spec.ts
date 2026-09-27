@@ -15,7 +15,9 @@ import { test, expect } from '@playwright/test';
  * everyone. It is documented as a test case in Jira instead.
  */
 
-const BASE = process.env.BASE_URL || 'https://practicesoftwaretesting.com';
+// PST_BASE_URL keeps this suite decoupled from the shared BASE_URL used by
+// the saucedemo/herokuapp suites.
+const BASE = process.env.PST_BASE_URL || 'https://practicesoftwaretesting.com';
 const CUSTOMER_EMAIL = 'customer@practicesoftwaretesting.com';
 const CUSTOMER_PASS = 'welcome01';
 
